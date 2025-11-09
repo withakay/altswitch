@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(.specify/scripts/bash/setup-plan.sh:*)",
+      "Bash(./.specify/scripts/bash/update-agent-context.sh:*)",
+      "Bash(.specify/scripts/bash/check-prerequisites.sh:*)",
+      "Bash(xcodebuild:*)",
+      "Bash(swift:*)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "context7",
+    "codex"
+  ]
+}

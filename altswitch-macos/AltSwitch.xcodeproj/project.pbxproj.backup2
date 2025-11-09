@@ -1,0 +1,661 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		049A48352E87163600DC98F9 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 049A46162E851EDF00DC98FB /* KeyboardShortcuts */; };
+		049A48362E87163600DC98FA /* Yams in Frameworks */ = {isa = PBXBuildFile; productRef = 049A46182E851EDF00DC98FD /* Yams */; };
+		049A48372E87163600DC98FB /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 049A46162E851EDF00DC98FB /* KeyboardShortcuts */; };
+		04MACWIN2E87163600DC98F9 /* MacWindowDiscovery in Frameworks */ = {isa = PBXBuildFile; productRef = 04MACWIN2EA94D4400A1D593 /* MacWindowDiscovery */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		049A45F92E851EDF00DC98F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 049A45E32E851EDE00DC98F9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 049A45EA2E851EDE00DC98F9;
+			remoteInfo = AltSwitch;
+		};
+		049A46032E851EDF00DC98F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 049A45E32E851EDE00DC98F9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 049A45EA2E851EDE00DC98F9;
+			remoteInfo = AltSwitch;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		049A45EB2E851EDE00DC98F9 /* AltSwitch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AltSwitch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		049A45F82E851EDF00DC98F9 /* AltSwitchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AltSwitchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		049A46022E851EDF00DC98F9 /* AltSwitchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AltSwitchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		049A45ED2E851EDE00DC98F9 /* AltSwitch */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AltSwitch;
+			sourceTree = "<group>";
+		};
+		049A45FB2E851EDF00DC98F9 /* AltSwitchTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AltSwitchTests;
+			sourceTree = "<group>";
+		};
+		049A46052E851EDF00DC98F9 /* AltSwitchUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = AltSwitchUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		049A45E82E851EDE00DC98F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				049A48352E87163600DC98F9 /* KeyboardShortcuts in Frameworks */,
+				049A48362E87163600DC98FA /* Yams in Frameworks */,
+				04MACWIN2E87163600DC98F9 /* MacWindowDiscovery in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		049A45F52E851EDF00DC98F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				049A48372E87163600DC98FB /* KeyboardShortcuts in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		049A45FF2E851EDF00DC98F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		049A45E22E851EDE00DC98F9 = {
+			isa = PBXGroup;
+			children = (
+				049A45ED2E851EDE00DC98F9 /* AltSwitch */,
+				049A45FB2E851EDF00DC98F9 /* AltSwitchTests */,
+				049A46052E851EDF00DC98F9 /* AltSwitchUITests */,
+				049A45EC2E851EDE00DC98F9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		049A45EC2E851EDE00DC98F9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				049A45EB2E851EDE00DC98F9 /* AltSwitch.app */,
+				049A45F82E851EDF00DC98F9 /* AltSwitchTests.xctest */,
+				049A46022E851EDF00DC98F9 /* AltSwitchUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		049A45EA2E851EDE00DC98F9 /* AltSwitch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 049A460C2E851EDF00DC98F9 /* Build configuration list for PBXNativeTarget "AltSwitch" */;
+			buildPhases = (
+				049A45E72E851EDE00DC98F9 /* Sources */,
+				049A45E82E851EDE00DC98F9 /* Frameworks */,
+				049A45E92E851EDE00DC98F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				049A45ED2E851EDE00DC98F9 /* AltSwitch */,
+			);
+			name = AltSwitch;
+			packageProductDependencies = (
+				049A46162E851EDF00DC98FB /* KeyboardShortcuts */,
+				049A46182E851EDF00DC98FD /* Yams */,
+				04MACWIN2EA94D4400A1D593 /* MacWindowDiscovery */,
+			);
+			productName = AltSwitch;
+			productReference = 049A45EB2E851EDE00DC98F9 /* AltSwitch.app */;
+			productType = "com.apple.product-type.application";
+		};
+		049A45F72E851EDF00DC98F9 /* AltSwitchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 049A460F2E851EDF00DC98F9 /* Build configuration list for PBXNativeTarget "AltSwitchTests" */;
+			buildPhases = (
+				049A45F42E851EDF00DC98F9 /* Sources */,
+				049A45F52E851EDF00DC98F9 /* Frameworks */,
+				049A45F62E851EDF00DC98F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				049A45FA2E851EDF00DC98F9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				049A45FB2E851EDF00DC98F9 /* AltSwitchTests */,
+			);
+			name = AltSwitchTests;
+			packageProductDependencies = (
+				049A46162E851EDF00DC98FB /* KeyboardShortcuts */,
+			);
+			productName = AltSwitchTests;
+			productReference = 049A45F82E851EDF00DC98F9 /* AltSwitchTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		049A46012E851EDF00DC98F9 /* AltSwitchUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 049A46122E851EDF00DC98F9 /* Build configuration list for PBXNativeTarget "AltSwitchUITests" */;
+			buildPhases = (
+				049A45FE2E851EDF00DC98F9 /* Sources */,
+				049A45FF2E851EDF00DC98F9 /* Frameworks */,
+				049A46002E851EDF00DC98F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				049A46042E851EDF00DC98F9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				049A46052E851EDF00DC98F9 /* AltSwitchUITests */,
+			);
+			name = AltSwitchUITests;
+			packageProductDependencies = (
+			);
+			productName = AltSwitchUITests;
+			productReference = 049A46022E851EDF00DC98F9 /* AltSwitchUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		049A45E32E851EDE00DC98F9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					049A45EA2E851EDE00DC98F9 = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					049A45F72E851EDF00DC98F9 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 049A45EA2E851EDE00DC98F9;
+					};
+					049A46012E851EDF00DC98F9 = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 049A45EA2E851EDE00DC98F9;
+					};
+				};
+			};
+			buildConfigurationList = 049A45E62E851EDE00DC98F9 /* Build configuration list for PBXProject "AltSwitch" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 049A45E22E851EDE00DC98F9;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				049A46152E851EDF00DC98FA /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				04MACWIN2EA94D4400A1D592 /* XCLocalSwiftPackageReference "../MacWindowDiscovery" */,
+				049A46172E851EDF00DC98FC /* XCRemoteSwiftPackageReference "Yams" */,
+				0426B3922EA94D4400A1D592 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 049A45EC2E851EDE00DC98F9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				049A45EA2E851EDE00DC98F9 /* AltSwitch */,
+				049A45F72E851EDF00DC98F9 /* AltSwitchTests */,
+				049A46012E851EDF00DC98F9 /* AltSwitchUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		049A45E92E851EDE00DC98F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		049A45F62E851EDF00DC98F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		049A46002E851EDF00DC98F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		049A45E72E851EDE00DC98F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		049A45F42E851EDF00DC98F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		049A45FE2E851EDF00DC98F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		049A45FA2E851EDF00DC98F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 049A45EA2E851EDE00DC98F9 /* AltSwitch */;
+			targetProxy = 049A45F92E851EDF00DC98F9 /* PBXContainerItemProxy */;
+		};
+		049A46042E851EDF00DC98F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 049A45EA2E851EDE00DC98F9 /* AltSwitch */;
+			targetProxy = 049A46032E851EDF00DC98F9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		049A460A2E851EDF00DC98F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		049A460B2E851EDF00DC98F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		049A460D2E851EDF00DC98F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = AltSwitch/AltSwitch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 576985M4ZN;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AltSwitch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AltSwitch;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtsun.AltSwitch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		049A460E2E851EDF00DC98F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = AltSwitch/AltSwitch.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 576985M4ZN;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AltSwitch/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = AltSwitch;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtsun.AltSwitch;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		049A46102E851EDF00DC98F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtsun.AltSwitchTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AltSwitch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AltSwitch";
+			};
+			name = Debug;
+		};
+		049A46112E851EDF00DC98F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtsun.AltSwitchTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AltSwitch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AltSwitch";
+			};
+			name = Release;
+		};
+		049A46132E851EDF00DC98F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtsun.AltSwitchUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TEST_TARGET_NAME = AltSwitch;
+			};
+			name = Debug;
+		};
+		049A46142E851EDF00DC98F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtsun.AltSwitchUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+				TEST_TARGET_NAME = AltSwitch;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		049A45E62E851EDE00DC98F9 /* Build configuration list for PBXProject "AltSwitch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				049A460A2E851EDF00DC98F9 /* Debug */,
+				049A460B2E851EDF00DC98F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		049A460C2E851EDF00DC98F9 /* Build configuration list for PBXNativeTarget "AltSwitch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				049A460D2E851EDF00DC98F9 /* Debug */,
+				049A460E2E851EDF00DC98F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		049A460F2E851EDF00DC98F9 /* Build configuration list for PBXNativeTarget "AltSwitchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				049A46102E851EDF00DC98F9 /* Debug */,
+				049A46112E851EDF00DC98F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		049A46122E851EDF00DC98F9 /* Build configuration list for PBXNativeTarget "AltSwitchUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				049A46132E851EDF00DC98F9 /* Debug */,
+				049A46142E851EDF00DC98F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		04MACWIN2EA94D4400A1D592 /* XCLocalSwiftPackageReference "../MacWindowDiscovery" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../MacWindowDiscovery;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0426B3922EA94D4400A1D592 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.62.1;
+			};
+		};
+		049A46152E851EDF00DC98FA /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		049A46172E851EDF00DC98FC /* XCRemoteSwiftPackageReference "Yams" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jpsim/Yams.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		049A46162E851EDF00DC98FB /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 049A46152E851EDF00DC98FA /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+		049A46182E851EDF00DC98FD /* Yams */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 049A46172E851EDF00DC98FC /* XCRemoteSwiftPackageReference "Yams" */;
+			productName = Yams;
+		};
+		04MACWIN2EA94D4400A1D593 /* MacWindowDiscovery */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04MACWIN2EA94D4400A1D592 /* XCLocalSwiftPackageReference "../MacWindowDiscovery" */;
+			productName = MacWindowDiscovery;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 049A45E32E851EDE00DC98F9 /* Project object */;
+}

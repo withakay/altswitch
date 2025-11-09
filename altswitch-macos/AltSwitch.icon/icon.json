@@ -1,0 +1,90 @@
+{
+  "fill" : {
+    "linear-gradient" : [
+      "extended-srgb:1.00000,0.55294,0.15686,1.00000",
+      "extended-srgb:0.79608,0.18824,0.87843,1.00000"
+    ],
+    "orientation" : {
+      "start" : {
+        "x" : 0.5,
+        "y" : 0
+      },
+      "stop" : {
+        "x" : 0.5,
+        "y" : 0.7
+      }
+    }
+  },
+  "groups" : [
+    {
+      "blend-mode" : "normal",
+      "blur-material" : 1,
+      "layers" : [
+        {
+          "blend-mode" : "multiply",
+          "fill" : {
+            "linear-gradient" : [
+              "srgb:0.58188,0.21569,1.00000,1.00000",
+              "srgb:1.00000,0.52121,1.00000,1.00000"
+            ],
+            "orientation" : {
+              "start" : {
+                "x" : 0.19251985767552396,
+                "y" : 0.18484236119763084
+              },
+              "stop" : {
+                "x" : 1,
+                "y" : 1
+              }
+            }
+          },
+          "glass-specializations" : [
+            {
+              "appearance" : "light",
+              "value" : true
+            }
+          ],
+          "hidden" : false,
+          "image-name" : "AltSwitchArrow.svg",
+          "name" : "AltSwitchArrow",
+          "opacity" : 0.77,
+          "position" : {
+            "scale" : 1.08,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "blend-mode" : "normal",
+          "glass" : false,
+          "image-name" : "AltSwitchWindow1.svg",
+          "name" : "AltSwitchWindow1",
+          "opacity" : 1
+        },
+        {
+          "blend-mode" : "normal",
+          "glass" : false,
+          "image-name" : "AltSwitchWindow2.svg",
+          "name" : "AltSwitchWindow2",
+          "opacity" : 1
+        }
+      ],
+      "lighting" : "individual",
+      "opacity" : 1,
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 1
+      },
+      "specular" : true,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.13
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "squares" : "shared"
+  }
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:AltSwitch.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:../packages/MacWindowDiscovery">
+   </FileRef>
+   <FileRef
+      location = "group:../packages/MacWindowSwitch">
+   </FileRef>
+</Workspace>
