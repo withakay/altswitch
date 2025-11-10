@@ -139,7 +139,7 @@ final class PackageAppDiscovery: AppDiscoveryProtocol {
             displayTitle = window.title
           }
 
-          var appInfo = AppInfo(
+          let appInfo = AppInfo(
             bundleIdentifier: bundleID,
             localizedName: runningApp.localizedName ?? bundleID,
             processIdentifier: processID,
@@ -157,7 +157,7 @@ final class PackageAppDiscovery: AppDiscoveryProtocol {
         }
       } else {
         // Create one AppInfo per application
-        var appInfo = AppInfo(
+        let appInfo = AppInfo(
           bundleIdentifier: bundleID,
           localizedName: runningApp.localizedName ?? bundleID,
           processIdentifier: processID,

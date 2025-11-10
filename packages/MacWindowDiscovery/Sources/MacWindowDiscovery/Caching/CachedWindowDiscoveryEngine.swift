@@ -1,5 +1,5 @@
-import Foundation
 import CoreGraphics
+import Foundation
 
 /// Window discovery engine with caching support
 ///
@@ -19,12 +19,12 @@ public final class CachedWindowDiscoveryEngine: Sendable {
     /// Create a cached discovery engine
     /// - Parameters:
     ///   - engine: Underlying discovery engine (defaults to new instance)
-    ///   - cacheTTL: Time to live for cache entries in seconds (default: 1.0)
+    ///   - cacheTTL: Time to live for cache entries in seconds (default: 5.0)
     ///   - enableAutoInvalidation: Enable event-driven cache invalidation (default: true)
     @MainActor
     public init(
         engine: WindowDiscoveryEngine = WindowDiscoveryEngine(),
-        cacheTTL: TimeInterval = 1.0,
+        cacheTTL: TimeInterval = 5.0,
         enableAutoInvalidation: Bool = true
     ) {
         self.engine = engine

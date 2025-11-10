@@ -29,7 +29,7 @@ KEYCHAIN_PROFILE="notarytool-altswitch"
 
 # Paths
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-BUILD_DIR="$HOME/Desktop/AltSwitch-Build"
+BUILD_DIR="dist"
 ARCHIVE_PATH="$BUILD_DIR/$APP_NAME.xcarchive"
 EXPORT_PATH="$BUILD_DIR/Export"
 DMG_PATH="$BUILD_DIR/$APP_NAME.dmg"

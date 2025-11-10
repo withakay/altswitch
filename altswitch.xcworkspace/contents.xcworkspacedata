@@ -7,11 +7,10 @@
    <FileRef
       location = "group:packages/MacWindowDiscovery">
    </FileRef>
-      <FileRef
+   <FileRef
       location = "group:packages/MacWindowSwitch">
    </FileRef>
    <FileRef
       location = "group:docs">
    </FileRef>
 </Workspace>
-

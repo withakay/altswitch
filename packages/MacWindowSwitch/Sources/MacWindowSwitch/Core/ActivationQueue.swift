@@ -23,7 +23,7 @@ import Foundation
 final class ActivationQueue: @unchecked Sendable {
 
     /// Shared instance for activation operations
-    nonisolated(unsafe) static let shared = ActivationQueue()
+    static let shared = ActivationQueue()
 
     /// Queue for accessibility commands (focus, activate, etc.)
     ///
