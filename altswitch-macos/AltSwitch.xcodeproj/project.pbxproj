@@ -444,7 +444,7 @@
 					"$(inherited)",
 					"-F/System/Library/PrivateFrameworks",
 					"-framework",
-					"SkyLight",
+					SkyLight,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtsun.AltSwitch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -486,7 +486,7 @@
 					"$(inherited)",
 					"-F/System/Library/PrivateFrameworks",
 					"-framework",
-					"SkyLight",
+					SkyLight,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtsun.AltSwitch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -513,7 +513,7 @@
 					"$(inherited)",
 					"-F/System/Library/PrivateFrameworks",
 					"-framework",
-					"SkyLight",
+					SkyLight,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtsun.AltSwitchTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -540,7 +540,7 @@
 					"$(inherited)",
 					"-F/System/Library/PrivateFrameworks",
 					"-framework",
-					"SkyLight",
+					SkyLight,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtsun.AltSwitchTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -565,7 +565,7 @@
 					"$(inherited)",
 					"-F/System/Library/PrivateFrameworks",
 					"-framework",
-					"SkyLight",
+					SkyLight,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtsun.AltSwitchUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -590,7 +590,7 @@
 					"$(inherited)",
 					"-F/System/Library/PrivateFrameworks",
 					"-framework",
-					"SkyLight",
+					SkyLight,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.thoughtsun.AltSwitchUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

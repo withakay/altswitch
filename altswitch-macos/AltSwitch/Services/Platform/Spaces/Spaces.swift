@@ -116,7 +116,9 @@ class Spaces {
       object: nil,
       queue: .main
     ) { _ in
-      Spaces.refresh()
+      Task { @MainActor in
+        Spaces.refresh()
+      }
     }
   }
 }
