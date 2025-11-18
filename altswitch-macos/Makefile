@@ -31,13 +31,30 @@ RELEASE_APP_PATH = $(RELEASE_BUILD_DIR)/$(APP_NAME)
 XCODEBUILD = xcodebuild
 OPEN = open
 
+# Version Scripts
+VERSION_FILE = Version.json
+SCRIPT_DIR = scripts
+INCREMENT_BUILD = $(SCRIPT_DIR)/increment-build.sh
+INCREMENT_VERSION = $(SCRIPT_DIR)/increment-version.sh
+UPDATE_XCODE_VERSION = $(SCRIPT_DIR)/update-xcode-version.sh
+
+# Packaging Scripts
+NOTARIZE_APP = $(SCRIPT_DIR)/notarize-app.sh
+CREATE_DMG = $(SCRIPT_DIR)/create-dmg.sh
+CREATE_ZIP = $(SCRIPT_DIR)/create-zip.sh
+CREATE_GITHUB_RELEASE = $(SCRIPT_DIR)/create-github-release.sh
+
 # Default target
 .DEFAULT_GOAL := help
 
 # PHONY targets (not actual files)
 .PHONY: help clean build build-debug build-release test test-unit test-ui test-performance \
         run run-debug run-release install archive analyze format lint coverage \
-        setup deps check-deps check-tools bootstrap
+        setup deps check-deps check-tools bootstrap \
+        version-info increment-build increment-version update-xcode-version \
+        bump-major bump-minor bump-patch \
+        notarize package package-dmg package-zip clean-dist \
+        github-release check-gh publish
 
 ##@ Development Commands
 
@@ -59,18 +76,35 @@ build-debug: check-tools ## Build debug version of AltSwitch
 		build
 	@echo "✅ Debug build completed: $(DEBUG_BUILD_DIR)/$(APP_NAME)"
 
-build-release: check-tools ## Build release version of AltSwitch
+build-release: check-tools increment-version increment-build update-xcode-version ## Build release version of AltSwitch
 	@echo "🔨 Building AltSwitch (Release)..."
-	$(XCODEBUILD) \
+	@echo "   Creating archive with Developer ID signing..."
+	$(XCODEBUILD) archive \
 		-scheme $(SCHEME) \
 		-configuration $(CONFIGURATION_RELEASE) \
-		-derivedDataPath $(DERIVED_DATA_DIR) \
-		build
-	@echo "✅ Release build completed: $(RELEASE_BUILD_DIR)/$(APP_NAME)"
+		-archivePath $(BUILD_DIR)/$(PROJECT_NAME).xcarchive \
+		| grep -E "▸|error:|warning:|succeeded" || true
+	@if [ ! -d "$(BUILD_DIR)/$(PROJECT_NAME).xcarchive" ]; then \
+		echo "❌ Archive failed!"; \
+		exit 1; \
+	fi
+	@echo "✅ Archive created"
+	@echo "   Exporting with Developer ID certificate..."
 	@mkdir -p $(DIST_DIR)
-	@rm -rf $(DIST_APP_PATH)
-	cp -R $(RELEASE_BUILD_DIR)/$(APP_NAME) $(DIST_DIR)/
-	@echo "📦 Copied release app to $(DIST_APP_PATH)"
+	$(XCODEBUILD) -exportArchive \
+		-archivePath $(BUILD_DIR)/$(PROJECT_NAME).xcarchive \
+		-exportPath $(DIST_DIR) \
+		-exportOptionsPlist ExportOptions.plist \
+		| grep -E "▸|error:|warning:|succeeded" || true
+	@if [ ! -d "$(DIST_APP_PATH)" ]; then \
+		echo "❌ Export failed!"; \
+		exit 1; \
+	fi
+	@echo "✅ App exported with Developer ID signing: $(DIST_APP_PATH)"
+	@echo "🔐 Notarizing app with Apple..."
+	@$(NOTARIZE_APP)
+	@echo "📦 Creating distribution packages..."
+	@$(MAKE) package
 
 archive: check-tools ## Create release archive for distribution
 	@echo "📦 Creating archive..."
@@ -304,6 +338,86 @@ docs: ## Generate and open documentation
 	@echo "  - CHANGELOG.md for version history"
 	@echo "  - CLAUDE.md for development guidelines"
 
+##@ Version Management
+
+version-info: ## Display current version and build number
+	@echo "📊 Version Information:"
+	@if [ -f "$(VERSION_FILE)" ]; then \
+		version=$$(grep -o '"version":[[:space:]]*"[^"]*"' $(VERSION_FILE) | grep -o '[0-9]*\.[0-9]*\.[0-9]*'); \
+		build=$$(grep -o '"build":[[:space:]]*[0-9]*' $(VERSION_FILE) | grep -o '[0-9]*'); \
+		echo "  Version: $$version"; \
+		echo "  Build: $$build"; \
+		echo "  Full: $$version ($$build)"; \
+	else \
+		echo "  ❌ $(VERSION_FILE) not found"; \
+	fi
+
+increment-build: ## Increment build number
+	@$(INCREMENT_BUILD)
+
+increment-version: ## Increment patch version (for release builds)
+	@$(INCREMENT_VERSION) patch
+
+update-xcode-version: ## Update Xcode project with version from Version.json
+	@$(UPDATE_XCODE_VERSION)
+
+bump-patch: ## Manually increment patch version
+	@$(INCREMENT_VERSION) patch
+	@$(UPDATE_XCODE_VERSION)
+	@make version-info
+
+bump-minor: ## Manually increment minor version
+	@$(INCREMENT_VERSION) minor
+	@$(UPDATE_XCODE_VERSION)
+	@make version-info
+
+bump-major: ## Manually increment major version
+	@$(INCREMENT_VERSION) major
+	@$(UPDATE_XCODE_VERSION)
+	@make version-info
+
+##@ Distribution Packaging
+
+notarize: ## Notarize the app bundle (called automatically by build-release)
+	@$(NOTARIZE_APP)
+
+package: package-dmg package-zip ## Create both DMG and ZIP distribution packages
+
+package-dmg: ## Create DMG distribution package
+	@$(CREATE_DMG)
+
+package-zip: ## Create ZIP distribution package
+	@$(CREATE_ZIP)
+
+clean-dist: ## Clean distribution packages
+	@echo "🧹 Cleaning distribution packages..."
+	@rm -f $(DIST_DIR)/*.dmg $(DIST_DIR)/*.zip
+	@echo "✅ Distribution packages cleaned"
+
+##@ GitHub Release
+
+check-gh: ## Check if GitHub CLI is installed and authenticated
+	@if ! command -v gh &> /dev/null; then \
+		echo "❌ GitHub CLI (gh) is not installed"; \
+		echo "Install with: brew install gh"; \
+		exit 1; \
+	fi
+	@if ! gh auth status &> /dev/null; then \
+		echo "❌ Not authenticated with GitHub"; \
+		echo "Run: gh auth login"; \
+		exit 1; \
+	fi
+	@echo "✅ GitHub CLI is ready"
+
+github-release: check-gh ## Create GitHub release with DMG and ZIP assets
+	@$(CREATE_GITHUB_RELEASE)
+
+publish: clean build-release github-release ## Complete release workflow: build, package, and create GitHub release
+	@echo ""
+	@echo "🎉 ✅ AltSwitch released successfully!"
+	@echo ""
+	@make version-info
+
 # Debug target to show variables
 debug-vars: ## Show Makefile variables (for debugging)
 	@echo "Debug Variables:"
@@ -313,3 +427,4 @@ debug-vars: ## Show Makefile variables (for debugging)
 	@echo "BUILD_DIR = $(BUILD_DIR)"
 	@echo "DEBUG_APP_PATH = $(DEBUG_APP_PATH)"
 	@echo "RELEASE_APP_PATH = $(RELEASE_APP_PATH)"
+	@echo "VERSION_FILE = $(VERSION_FILE)"
