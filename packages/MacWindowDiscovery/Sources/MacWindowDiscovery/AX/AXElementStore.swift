@@ -188,11 +188,16 @@ public final class AXElementStore {
         let posResult = AXUIElementCopyAttributeValue(axWindow, kAXPositionAttribute as CFString, &positionValue)
         let sizeResult = AXUIElementCopyAttributeValue(axWindow, kAXSizeAttribute as CFString, &sizeValue)
         
-        guard posResult == .success && sizeResult == .success,
-              let position = positionValue as! AXValue?,
-              let size = sizeValue as! AXValue? else {
+        guard posResult == .success, sizeResult == .success,
+              let positionValue = positionValue,
+              let sizeValue = sizeValue,
+              CFGetTypeID(positionValue) == AXValueGetTypeID(),
+              CFGetTypeID(sizeValue) == AXValueGetTypeID() else {
             return nil
         }
+
+        let position = positionValue as! AXValue
+        let size = sizeValue as! AXValue
         
         var axPoint = CGPoint.zero
         var axSize = CGSize.zero
@@ -245,8 +250,9 @@ public final class AXElementStore {
         if roleResult == .success, let role = roleValue as? String {
             if role == kAXWindowRole as String {
                 return element
-            } else if let parentValue = tryGetParent(element) {
-                let parent = unsafeBitCast(parentValue, to: AXUIElement.self)
+            } else if let parentValue = tryGetParent(element),
+                      CFGetTypeID(parentValue) == AXUIElementGetTypeID() {
+                let parent = parentValue as! AXUIElement
                 var parentRoleValue: CFTypeRef?
                 if AXUIElementCopyAttributeValue(parent, kAXRoleAttribute as CFString, &parentRoleValue) == .success,
                    let parentRole = parentRoleValue as? String,
