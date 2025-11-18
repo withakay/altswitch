@@ -50,7 +50,7 @@ struct AppRowView: View {
         // Debug info (window ID, process ID, cache status)
         if debugMode {
           let windowID = app.windows.first?.id ?? 0
-          let isCached = AXElementCache.shared.get(for: CGWindowID(windowID)) != nil
+          let isCached = MacWindowDiscovery.AXElementStore.shared.get(for: CGWindowID(windowID)) != nil
           let widStr = String(format: "%lu", windowID)
           let pidStr = String(format: "%d", app.processIdentifier)
           Text("WID:\(widStr) PID:\(pidStr) Cached:\(isCached ? "✓" : "✗")")

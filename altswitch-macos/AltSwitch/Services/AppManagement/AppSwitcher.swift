@@ -39,7 +39,7 @@ final class AppSwitcher: AppSwitcherProtocol {
         WindowIdentityResolver().resolveProcessID(for: windowID)
       },
       axResolver: { windowID in
-        AXElementStore.shared.get(for: windowID)
+        MacWindowDiscovery.AXElementStore.shared.get(for: windowID)
       }
     )
   }
@@ -109,7 +109,7 @@ final class AppSwitcher: AppSwitcherProtocol {
   }
 
   /// Use accessibility API to focus window (from AltTab)
-  /// CRITICAL: Uses cached AXUIElement from AXElementCache for cross-space switching
+  /// CRITICAL: Uses cached AXUIElement from AXElementStore for cross-space switching
   /// CRITICAL: This runs SYNCHRONOUSLY on main thread to ensure window is raised before returning
   nonisolated private func axFocusWindow(pid: pid_t, cgWindowId: CGWindowID) throws {
     // CRITICAL: Try to use cached AXUIElement first (for cross-space windows)
@@ -118,7 +118,7 @@ final class AppSwitcher: AppSwitcherProtocol {
     // when switching to a window on another space (inaccessible).
     // Use DispatchQueue.main.sync to block until AX operations complete (like AltTab)
     DispatchQueue.main.sync {
-      if let cachedElement = AXElementCache.shared.get(for: cgWindowId) {
+      if let cachedElement = MacWindowDiscovery.AXElementStore.shared.get(for: cgWindowId) {
         NSLog("AltSwitch: ✅ Using CACHED AXUIElement for window \(cgWindowId)")
         let appElement = AXUIElementCreateApplication(pid)
 
