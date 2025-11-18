@@ -20,19 +20,29 @@ An alternative application switcher for macOS that combines the power of fuzzy s
 
 ## Installation
 
-**TODO:** Setup github release with Apple Notarized builds.
+### From Release (Recommended)
+
+Download the latest release from the [releases page](https://github.com/withakay/altswitch/releases):
+
+1. Download either the DMG or ZIP file
+2. **DMG**: Open and drag AltSwitch to Applications
+3. **ZIP**: Unzip and drag AltSwitch.app to Applications
+4. Launch AltSwitch from Applications
+5. Grant required permissions when prompted
+
+**All releases are code-signed and notarized by Apple.** You won't see any security warnings when installing.
 
 ### From Source
 
-**NOTE: Building from source might be a bit rough around the edges, the xcode project/workspace is configured with my Apple Developer ID.**
+**NOTE: Building from source requires your own Apple Developer ID for code signing.**
 
 ```bash
 git clone https://github.com/withakay/altswitch.git
-cd altswitch
-open altswitch.xcworkspace
+cd altswitch/altswitch-macos
+make build-release
 ```
 
-Build and run the `AltSwitch` scheme in Xcode.
+The built app will be in `dist/AltSwitch.app`.
 
 ### Prerequisites
 
@@ -103,27 +113,111 @@ altswitch/
 
 ### Building
 
-**TODO: Improve and document building via Makefile**
+All build commands should be run from the `altswitch-macos/` directory:
 
 ```bash
-# Open in Xcode
-open altswitch.xcworkspace
+# Build debug version
+make build
 
-# Or build from command line
-xcodebuild -workspace altswitch.xcworkspace -scheme AltSwitch -configuration Debug
+# Build release version (auto-increments version, creates DMG/ZIP)
+make build-release
+
+# Quick build and run
+make quick
+
+# Clean build artifacts
+make clean
 ```
 
 ### Running Tests
 
-**TODO: Improve and document running tests via Makefile**
-
 ```bash
 # Run all tests
-xcodebuild test -workspace altswitch.xcworkspace -scheme AltSwitch
+make test
 
-# Run specific test suite
-xcodebuild test -workspace altswitch.xcworkspace -scheme AltSwitch -only-testing:AltSwitchTests/Unit
+# Run only unit tests
+make test-unit
+
+# Run UI tests
+make test-ui
+
+# Run with verbose output
+make test-verbose
+
+# Generate coverage report
+make coverage
 ```
+
+### Version Management
+
+```bash
+# Check current version
+make version-info
+
+# Manually bump version
+make bump-patch    # 0.5.0 → 0.5.1
+make bump-minor    # 0.5.0 → 0.6.0
+make bump-major    # 0.5.0 → 1.0.0
+```
+
+### Creating a Release
+
+All releases are automatically **code-signed and notarized** by Apple.
+
+#### Prerequisites for Notarization
+
+Before creating releases, you need to set up notarization credentials:
+
+1. **Apple Developer Account** with Developer ID certificate
+2. **Install Developer ID Certificate** in Xcode:
+   - Xcode → Settings → Accounts → Manage Certificates
+   - Or download from: https://developer.apple.com/account/resources/certificates/list
+
+3. **Configure Notarization Credentials**:
+   ```bash
+   # Generate an app-specific password at: https://appleid.apple.com/account/manage
+   # Then store credentials:
+   xcrun notarytool store-credentials "notarytool-altswitch" \
+     --apple-id "your-apple-id@example.com" \
+     --team-id "576985M4ZN" \
+     --password "xxxx-xxxx-xxxx-xxxx"
+   ```
+
+#### Release Workflow
+
+```bash
+# Complete release workflow (build, notarize, package, create GitHub release)
+make publish
+
+# Or step by step:
+make build-release      # Build, notarize, and create DMG/ZIP (takes 1-5 minutes)
+make github-release     # Create GitHub release with assets
+```
+
+**Note**: `make build-release` automatically:
+- Increments version
+- Builds with code signing
+- **Notarizes with Apple** (1-5 minutes)
+- **Staples notarization ticket**
+- Creates DMG and ZIP packages
+
+### Development Workflow
+
+```bash
+# Quick development cycle
+make dev              # Clean, build debug, run tests
+
+# Full CI pipeline
+make ci               # Clean, build release, test, analyze
+
+# Code quality
+make format           # Format Swift code
+make lint             # Lint Swift code
+```
+
+### Available Make Targets
+
+Run `make help` to see all available targets with descriptions.
 
 ## Configuration
 
