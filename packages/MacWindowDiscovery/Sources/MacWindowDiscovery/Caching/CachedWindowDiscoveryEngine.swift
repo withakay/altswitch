@@ -71,6 +71,11 @@ public final class CachedWindowDiscoveryEngine: Sendable {
 
         // Perform discovery
         let windows = try await engine.discoverWindows(options: options)
+        
+        // Cache AX elements if enabled
+        if options.enableAXElementCaching {
+            await AXElementStore.shared.cacheElements(for: windows)
+        }
 
         // Store in cache
         await cache.set(key, windows: windows)
@@ -92,6 +97,11 @@ public final class CachedWindowDiscoveryEngine: Sendable {
 
         // Perform discovery
         let windows = try await engine.discoverWindows(forProcessID: processID, options: options)
+        
+        // Cache AX elements if enabled
+        if options.enableAXElementCaching {
+            await AXElementStore.shared.cacheElements(for: windows)
+        }
 
         // Store in cache
         await cache.set(key, windows: windows)

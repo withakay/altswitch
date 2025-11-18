@@ -50,6 +50,12 @@ public struct WindowDiscoveryOptions: Sendable, Equatable, Hashable {
 
     /// Whether to include Space information (requires private APIs)
     public var includeSpaceInfo: Bool
+    
+    /// Whether to enable AX element caching for cross-space window switching
+    public var enableAXElementCaching: Bool
+    
+    /// Whether to collect AX title overlay for windows with empty CG titles
+    public var collectTitleOverlay: Bool
 
     // MARK: - Initialization
 
@@ -66,7 +72,9 @@ public struct WindowDiscoveryOptions: Sendable, Equatable, Hashable {
         bundleIdentifierBlacklist: Set<String> = [],
         excludeSystemProcesses: Bool = true,
         useAccessibilityAPI: Bool = true,
-        includeSpaceInfo: Bool = true
+        includeSpaceInfo: Bool = true,
+        enableAXElementCaching: Bool = false,
+        collectTitleOverlay: Bool = false
     ) {
         self.minimumSize = minimumSize
         self.normalLayerOnly = normalLayerOnly
@@ -81,6 +89,8 @@ public struct WindowDiscoveryOptions: Sendable, Equatable, Hashable {
         self.excludeSystemProcesses = excludeSystemProcesses
         self.useAccessibilityAPI = useAccessibilityAPI
         self.includeSpaceInfo = includeSpaceInfo
+        self.enableAXElementCaching = enableAXElementCaching
+        self.collectTitleOverlay = collectTitleOverlay
     }
 }
 

@@ -29,8 +29,8 @@ public struct WindowActivator {
 
     /// Activate a window by its CGWindowID and owner PID
     ///
-    /// This is a synchronous, fire-and-forget activation that matches the behavior
-    /// of alt-tab-macos. The activation happens on a background queue and this method
+    /// This is a synchronous, fire-and-forget activation that matches the behavior.
+    /// The activation happens on a background queue and this method
     /// returns immediately.
     ///
     /// - Parameters:
@@ -61,7 +61,9 @@ public struct WindowActivator {
 
     /// Activate a window by its CGWindowID only, using injected resolvers for PID and AX.
     /// If PID cannot be resolved, the activation is skipped.
-    public static func activate(windowID: CGWindowID, dependencies: ActivationDependencies? = nil) throws {
+    public static func activate(windowID: CGWindowID, dependencies: ActivationDependencies? = nil)
+        throws
+    {
         guard hasAccessibilityPermission() else {
             throw WindowActivationError.accessibilityPermissionDenied
         }
@@ -93,7 +95,8 @@ public struct WindowActivator {
         // Activate with all windows
         let activated = app.activate(options: .activateAllWindows)
         guard activated else {
-            throw WindowActivationError.cannotActivate(0, reason: "NSRunningApplication.activate() returned false")
+            throw WindowActivationError.cannotActivate(
+                0, reason: "NSRunningApplication.activate() returned false")
         }
     }
 
@@ -103,7 +106,9 @@ public struct WindowActivator {
     ///
     /// - Returns: true if Accessibility permission is granted, false otherwise
     private static func hasAccessibilityPermission() -> Bool {
-        let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: false]
+        let options: NSDictionary = [
+            kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: false
+        ]
         return AXIsProcessTrustedWithOptions(options)
     }
 
@@ -112,7 +117,9 @@ public struct WindowActivator {
     /// This will prompt the user to grant Accessibility permission by opening
     /// System Settings to the appropriate pane.
     public static func requestAccessibilityPermission() {
-        let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true]
+        let options: NSDictionary = [
+            kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true
+        ]
         _ = AXIsProcessTrustedWithOptions(options)
     }
 }
