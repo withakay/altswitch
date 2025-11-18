@@ -55,7 +55,7 @@ CREATE_GITHUB_RELEASE = $(SCRIPT_DIR)/create-github-release.sh
         version-info generate-version increment-build increment-version \
         bump-major bump-minor bump-patch \
         package package-dmg package-zip clean-dist \
-        github-release check-gh
+        github-release check-gh publish
 
 ##@ Development Commands
 
@@ -393,6 +393,12 @@ check-gh: ## Check if GitHub CLI is installed and authenticated
 
 github-release: check-gh ## Create GitHub release with DMG and ZIP assets
 	@$(CREATE_GITHUB_RELEASE)
+
+publish: clean build-release github-release ## Complete release workflow: build, package, and create GitHub release
+	@echo ""
+	@echo "🎉 ✅ Release published successfully!"
+	@echo ""
+	@make version-info
 
 # Debug target to show variables
 debug-vars: ## Show Makefile variables (for debugging)
