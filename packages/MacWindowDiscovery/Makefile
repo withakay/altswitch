@@ -30,6 +30,13 @@ SWIFT = swift
 SWIFTFORMAT = swift-format
 SWIFTLINT = swiftlint
 
+# Version Scripts
+VERSION_FILE = Version.json
+SCRIPT_DIR = scripts
+INCREMENT_BUILD = $(SCRIPT_DIR)/increment-build.sh
+INCREMENT_VERSION = $(SCRIPT_DIR)/increment-version.sh
+GENERATE_VERSION = $(SCRIPT_DIR)/generate-version.sh
+
 # Default target
 .DEFAULT_GOAL := help
 
@@ -38,7 +45,9 @@ SWIFTLINT = swiftlint
         run run-release install format lint check-format check-lint \
         run-debug-app run-debug-app-release \
         setup deps check-deps check-tools bootstrap resolve \
-        dev ci quick release info debug-vars
+        dev ci quick release info debug-vars \
+        version-info generate-version increment-build increment-version \
+        bump-major bump-minor bump-patch
 
 ##@ Development Commands
 
@@ -51,12 +60,12 @@ help: ## Display this help message
 
 build: build-debug ## Build debug version (default)
 
-build-debug: check-tools ## Build debug version of library and CLI
+build-debug: check-tools increment-build generate-version ## Build debug version of library and CLI
 	@echo "🔨 Building $(PROJECT_NAME) (Debug)..."
 	$(SWIFT) build -c $(CONFIGURATION_DEBUG)
 	@echo "✅ Debug build completed: $(DEBUG_CLI)"
 
-build-release: check-tools ## Build release version optimized for performance
+build-release: check-tools increment-version increment-build generate-version ## Build release version optimized for performance
 	@echo "🔨 Building $(PROJECT_NAME) (Release)..."
 	$(SWIFT) build -c $(CONFIGURATION_RELEASE)
 	@echo "✅ Release build completed: $(RELEASE_CLI)"
@@ -304,6 +313,44 @@ docs-preview: ## Generate and preview documentation
 	@echo "📚 Generating and previewing documentation..."
 	$(SWIFT) package --disable-sandbox preview-documentation
 
+##@ Version Management
+
+version-info: ## Display current version and build number
+	@echo "📊 Version Information:"
+	@if [ -f "$(VERSION_FILE)" ]; then \
+		version=$$(grep -o '"version":[[:space:]]*"[^"]*"' $(VERSION_FILE) | grep -o '[0-9]*\.[0-9]*\.[0-9]*'); \
+		build=$$(grep -o '"build":[[:space:]]*[0-9]*' $(VERSION_FILE) | grep -o '[0-9]*'); \
+		echo "  Version: $$version"; \
+		echo "  Build: $$build"; \
+		echo "  Full: $$version ($$build)"; \
+	else \
+		echo "  ❌ $(VERSION_FILE) not found"; \
+	fi
+
+generate-version: ## Generate Version.swift from Version.json
+	@$(GENERATE_VERSION)
+
+increment-build: ## Increment build number
+	@$(INCREMENT_BUILD)
+
+increment-version: ## Increment patch version (for release builds)
+	@$(INCREMENT_VERSION) patch
+
+bump-patch: generate-version ## Manually increment patch version
+	@$(INCREMENT_VERSION) patch
+	@$(GENERATE_VERSION)
+	@make version-info
+
+bump-minor: generate-version ## Manually increment minor version
+	@$(INCREMENT_VERSION) minor
+	@$(GENERATE_VERSION)
+	@make version-info
+
+bump-major: generate-version ## Manually increment major version
+	@$(INCREMENT_VERSION) major
+	@$(GENERATE_VERSION)
+	@make version-info
+
 # Debug target to show variables
 debug-vars: ## Show Makefile variables (for debugging)
 	@echo "Debug Variables:"
@@ -315,3 +362,4 @@ debug-vars: ## Show Makefile variables (for debugging)
 	@echo "DEBUG_CLI = $(DEBUG_CLI)"
 	@echo "RELEASE_CLI = $(RELEASE_CLI)"
 	@echo "SWIFT = $(SWIFT)"
+	@echo "VERSION_FILE = $(VERSION_FILE)"
