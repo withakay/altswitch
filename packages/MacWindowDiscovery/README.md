@@ -103,6 +103,21 @@ options.bundleIdentifierWhitelist = ["com.apple.Safari", "com.apple.Terminal"]
 let windows = try await engine.discoverWindows(options: options)
 ```
 
+### Application Exclude Lists
+
+```swift
+var options = WindowDiscoveryOptions.default
+
+// Exclude all windows from specific applications
+options.applicationNameExcludeList = ["Slack", "Discord", "Music"]
+
+// Exclude only untitled windows from specific applications
+// (useful for apps like Terminal that may have many background tabs)
+options.untitledWindowExcludeList = ["Terminal", "iTerm"]
+
+let windows = try await engine.discoverWindows(options: options)
+```
+
 ### Array Extensions
 
 ```swift
