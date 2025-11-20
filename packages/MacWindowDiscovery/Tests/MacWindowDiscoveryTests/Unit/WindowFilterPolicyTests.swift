@@ -27,6 +27,7 @@ struct WindowFilterPolicyTests {
     func testSizeFilter() {
         var options = WindowDiscoveryOptions.default
         options.minimumSize = CGSize(width: 100, height: 100)
+        options.requireProperSubrole = false  // Disable for unit testing
 
         let policy = WindowFilterPolicy(options: options)
 
@@ -43,6 +44,7 @@ struct WindowFilterPolicyTests {
     func testAlphaFilter() {
         var options = WindowDiscoveryOptions.default
         options.minimumAlpha = 0.9
+        options.requireProperSubrole = false  // Disable for unit testing
 
         let policy = WindowFilterPolicy(options: options)
 
@@ -59,6 +61,7 @@ struct WindowFilterPolicyTests {
     func testLayerFilter() {
         var options = WindowDiscoveryOptions.default
         options.normalLayerOnly = true
+        options.requireProperSubrole = false  // Disable for unit testing
 
         let policy = WindowFilterPolicy(options: options)
 
@@ -75,6 +78,7 @@ struct WindowFilterPolicyTests {
     func testHiddenFilter() {
         var options = WindowDiscoveryOptions.default
         options.includeHidden = false
+        options.requireProperSubrole = false  // Disable for unit testing
 
         let policy = WindowFilterPolicy(options: options)
         let window = makeWindow()
@@ -92,6 +96,7 @@ struct WindowFilterPolicyTests {
     func testMinimizedFilter() {
         var options = WindowDiscoveryOptions.default
         options.includeMinimized = false
+        options.requireProperSubrole = false  // Disable for unit testing
 
         let policy = WindowFilterPolicy(options: options)
         let window = makeWindow()
@@ -109,6 +114,7 @@ struct WindowFilterPolicyTests {
     func testWhitelistFilter() {
         var options = WindowDiscoveryOptions.default
         options.bundleIdentifierWhitelist = ["com.apple.Safari"]
+        options.requireProperSubrole = false  // Disable for unit testing
 
         let policy = WindowFilterPolicy(options: options)
         let window = makeWindow()
@@ -136,6 +142,7 @@ struct WindowFilterPolicyTests {
     func testBlacklistFilter() {
         var options = WindowDiscoveryOptions.default
         options.bundleIdentifierBlacklist = ["com.unwanted.app"]
+        options.requireProperSubrole = false  // Disable for unit testing
 
         let policy = WindowFilterPolicy(options: options)
         let window = makeWindow()
@@ -163,6 +170,7 @@ struct WindowFilterPolicyTests {
     func testSystemProcessFilter() {
         var options = WindowDiscoveryOptions.default
         options.excludeSystemProcesses = true
+        options.requireProperSubrole = false  // Disable for unit testing
 
         let policy = WindowFilterPolicy(options: options)
         let window = makeWindow()
@@ -184,5 +192,185 @@ struct WindowFilterPolicyTests {
             activationPolicy: 0
         )
         #expect(policy.shouldInclude(window, axInfo: nil, appInfo: userApp))
+    }
+
+    @Test("Application name exclude list filters all windows")
+    func testApplicationNameExcludeList() {
+        var options = WindowDiscoveryOptions.default
+        options.applicationNameExcludeList = ["Slack", "Discord"]
+        options.requireProperSubrole = false  // Disable for unit testing
+
+        let policy = WindowFilterPolicy(options: options)
+        
+        // Excluded app with titled window
+        var windowWithTitle = makeWindow()
+        windowWithTitle[kCGWindowName as String] = "Channel #general"
+        let slackApp = AppInfo(
+            processID: 123,
+            bundleIdentifier: "com.slack.Slack",
+            localizedName: "Slack",
+            activationPolicy: 0
+        )
+        #expect(!policy.shouldInclude(windowWithTitle, axInfo: nil, appInfo: slackApp))
+        
+        // Excluded app with untitled window
+        let windowWithoutTitle = makeWindow()
+        #expect(!policy.shouldInclude(windowWithoutTitle, axInfo: nil, appInfo: slackApp))
+        
+        // Non-excluded app
+        let safariApp = AppInfo(
+            processID: 456,
+            bundleIdentifier: "com.apple.Safari",
+            localizedName: "Safari",
+            activationPolicy: 0
+        )
+        #expect(policy.shouldInclude(windowWithTitle, axInfo: nil, appInfo: safariApp))
+    }
+
+    @Test("Untitled window exclude list filters only untitled windows")
+    func testUntitledWindowExcludeList() {
+        var options = WindowDiscoveryOptions.default
+        options.untitledWindowExcludeList = ["Terminal"]
+        options.requireProperSubrole = false  // Disable for unit testing
+
+        let policy = WindowFilterPolicy(options: options)
+        
+        let terminalApp = AppInfo(
+            processID: 123,
+            bundleIdentifier: "com.apple.Terminal",
+            localizedName: "Terminal",
+            activationPolicy: 0
+        )
+        
+        // Untitled window - should be excluded (no CG title, no AX title)
+        let untitledWindow = makeWindow()
+        #expect(!policy.shouldInclude(untitledWindow, axInfo: nil, appInfo: terminalApp))
+        
+        // Window with CG title - should pass through
+        var windowWithCGTitle = makeWindow()
+        windowWithCGTitle[kCGWindowName as String] = "bash - 80x24"
+        #expect(policy.shouldInclude(windowWithCGTitle, axInfo: nil, appInfo: terminalApp))
+        
+        // Window with AX title - should pass through
+        let windowWithAXTitle = makeWindow()
+        let axInfo = AXWindowInfo(title: "zsh - 100x30")
+        #expect(policy.shouldInclude(windowWithAXTitle, axInfo: axInfo, appInfo: terminalApp))
+        
+        // Different app with untitled window - should pass through
+        let safariApp = AppInfo(
+            processID: 456,
+            bundleIdentifier: "com.apple.Safari",
+            localizedName: "Safari",
+            activationPolicy: 0
+        )
+        #expect(policy.shouldInclude(untitledWindow, axInfo: nil, appInfo: safariApp))
+    }
+
+    @Test("Both exclude lists work together")
+    func testBothExcludeLists() {
+        var options = WindowDiscoveryOptions.default
+        options.applicationNameExcludeList = ["Music"]
+        options.untitledWindowExcludeList = ["Terminal"]
+        options.requireProperSubrole = false  // Disable for unit testing
+
+        let policy = WindowFilterPolicy(options: options)
+        
+        // Music app - all windows excluded
+        let musicApp = AppInfo(
+            processID: 123,
+            bundleIdentifier: "com.apple.Music",
+            localizedName: "Music",
+            activationPolicy: 0
+        )
+        var titledWindow = makeWindow()
+        titledWindow[kCGWindowName as String] = "Now Playing"
+        #expect(!policy.shouldInclude(titledWindow, axInfo: nil, appInfo: musicApp))
+        #expect(!policy.shouldInclude(makeWindow(), axInfo: nil, appInfo: musicApp))
+        
+        // Terminal app - only untitled windows excluded
+        let terminalApp = AppInfo(
+            processID: 456,
+            bundleIdentifier: "com.apple.Terminal",
+            localizedName: "Terminal",
+            activationPolicy: 0
+        )
+        #expect(!policy.shouldInclude(makeWindow(), axInfo: nil, appInfo: terminalApp))
+        var terminalTitled = makeWindow()
+        terminalTitled[kCGWindowName as String] = "bash"
+        #expect(policy.shouldInclude(terminalTitled, axInfo: nil, appInfo: terminalApp))
+        
+        // Normal app - all windows pass through
+        let safariApp = AppInfo(
+            processID: 789,
+            bundleIdentifier: "com.apple.Safari",
+            localizedName: "Safari",
+            activationPolicy: 0
+        )
+        #expect(policy.shouldInclude(titledWindow, axInfo: nil, appInfo: safariApp))
+        #expect(policy.shouldInclude(makeWindow(), axInfo: nil, appInfo: safariApp))
+    }
+
+    @Test("Exclude lists handle nil app info gracefully")
+    func testExcludeListsWithNilAppInfo() {
+        var options = WindowDiscoveryOptions.default
+        options.applicationNameExcludeList = ["Slack"]
+        options.untitledWindowExcludeList = ["Terminal"]
+        options.requireProperSubrole = false  // Disable for unit testing
+
+        let policy = WindowFilterPolicy(options: options)
+        let window = makeWindow()
+        
+        // Should pass through when appInfo is nil
+        #expect(policy.shouldInclude(window, axInfo: nil, appInfo: nil))
+    }
+
+    @Test("Exclude lists handle nil localized name gracefully")
+    func testExcludeListsWithNilLocalizedName() {
+        var options = WindowDiscoveryOptions.default
+        options.applicationNameExcludeList = ["Slack"]
+        options.untitledWindowExcludeList = ["Terminal"]
+        options.requireProperSubrole = false  // Disable for unit testing
+
+        let policy = WindowFilterPolicy(options: options)
+        let window = makeWindow()
+        
+        // App with nil localized name
+        let appWithoutName = AppInfo(
+            processID: 123,
+            bundleIdentifier: "com.example.app",
+            localizedName: nil,
+            activationPolicy: 0
+        )
+        
+        // Should pass through when localizedName is nil
+        #expect(policy.shouldInclude(window, axInfo: nil, appInfo: appWithoutName))
+    }
+
+    @Test("Exclude lists are case-sensitive")
+    func testExcludeListsCaseSensitive() {
+        var options = WindowDiscoveryOptions.default
+        options.applicationNameExcludeList = ["Slack"]
+        options.requireProperSubrole = false  // Disable for unit testing
+
+        let policy = WindowFilterPolicy(options: options)
+        let window = makeWindow()
+        
+        // Exact match - excluded
+        let slackApp = AppInfo(
+            processID: 123,
+            bundleIdentifier: "com.slack.Slack",
+            localizedName: "Slack",
+            activationPolicy: 0
+        )
+        #expect(!policy.shouldInclude(window, axInfo: nil, appInfo: slackApp))
+        
+        // Different case - not excluded
+        let slackLowerApp = AppInfo(
+            processID: 456,
+            bundleIdentifier: "com.slack.Slack",
+            localizedName: "slack",
+            activationPolicy: 0
+        )
+        #expect(policy.shouldInclude(window, axInfo: nil, appInfo: slackLowerApp))
     }
 }

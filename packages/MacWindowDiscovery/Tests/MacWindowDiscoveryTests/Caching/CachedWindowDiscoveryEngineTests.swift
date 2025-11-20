@@ -13,6 +13,7 @@ struct CachedWindowDiscoveryEngineTests {
         let workspaceProvider = MockWorkspaceProvider()
 
         cgProvider.addMockWindow(id: 1, pid: 100)
+        axProvider.addMockWindowInfo(id: 1)  // Add AX info
         workspaceProvider.addMockApp(pid: 100, bundleIdentifier: "com.test", localizedName: "Test")
 
         let engine = WindowDiscoveryEngine(
@@ -52,6 +53,7 @@ struct CachedWindowDiscoveryEngineTests {
         let workspaceProvider = MockWorkspaceProvider()
 
         cgProvider.addMockWindow(id: 1, pid: 100)
+        axProvider.addMockWindowInfo(id: 1)  // Add AX info
         workspaceProvider.addMockApp(pid: 100, bundleIdentifier: "com.test", localizedName: "Test")
 
         let engine = WindowDiscoveryEngine(
@@ -87,6 +89,7 @@ struct CachedWindowDiscoveryEngineTests {
         let workspaceProvider = MockWorkspaceProvider()
 
         cgProvider.addMockWindow(id: 1, pid: 100)
+        axProvider.addMockWindowInfo(id: 1)  // Add AX info
         workspaceProvider.addMockApp(pid: 100, bundleIdentifier: "com.test", localizedName: "Test")
 
         let engine = WindowDiscoveryEngine(
@@ -124,6 +127,8 @@ struct CachedWindowDiscoveryEngineTests {
 
         cgProvider.addMockWindow(id: 1, pid: 100)
         cgProvider.addMockWindow(id: 2, pid: 200)
+        axProvider.addMockWindowInfo(id: 1)  // Add AX info
+        axProvider.addMockWindowInfo(id: 2)  // Add AX info
         workspaceProvider.addMockApp(pid: 100, bundleIdentifier: "com.test1", localizedName: "Test1")
         workspaceProvider.addMockApp(pid: 200, bundleIdentifier: "com.test2", localizedName: "Test2")
 
@@ -165,6 +170,7 @@ struct CachedWindowDiscoveryEngineTests {
         let workspaceProvider = MockWorkspaceProvider()
 
         cgProvider.addMockWindow(id: 1, pid: 100)
+        axProvider.addMockWindowInfo(id: 1)  // Add AX info
         workspaceProvider.addMockApp(pid: 100, bundleIdentifier: "com.test", localizedName: "Test")
 
         let engine = WindowDiscoveryEngine(
@@ -200,6 +206,7 @@ struct CachedWindowDiscoveryEngineTests {
         let workspaceProvider = MockWorkspaceProvider()
 
         cgProvider.addMockWindow(id: 1, pid: 100)
+        axProvider.addMockWindowInfo(id: 1)  // Add AX info
         workspaceProvider.addMockApp(pid: 100, bundleIdentifier: "com.test", localizedName: "Test")
 
         let engine = WindowDiscoveryEngine(
@@ -235,6 +242,7 @@ struct CachedWindowDiscoveryEngineTests {
         let workspaceProvider = MockWorkspaceProvider()
 
         cgProvider.addMockWindow(id: 1, pid: 100)
+        axProvider.addMockWindowInfo(id: 1)  // Add AX info
         workspaceProvider.addMockApp(pid: 100, bundleIdentifier: "com.test", localizedName: "Test")
 
         let engine = WindowDiscoveryEngine(
@@ -274,6 +282,7 @@ struct CachedWindowDiscoveryEngineTests {
         let workspaceProvider = MockWorkspaceProvider()
 
         cgProvider.addMockWindow(id: 1, pid: 100)
+        axProvider.addMockWindowInfo(id: 1)  // Add AX info
         workspaceProvider.addMockApp(pid: 100, bundleIdentifier: "com.test", localizedName: "Test")
 
         let engine = WindowDiscoveryEngine(
