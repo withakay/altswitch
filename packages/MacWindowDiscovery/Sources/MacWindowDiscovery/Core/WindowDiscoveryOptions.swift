@@ -43,6 +43,15 @@ public struct WindowDiscoveryOptions: Sendable, Equatable, Hashable {
     /// Exclude system processes (dock, control center, etc.)
     public var excludeSystemProcesses: Bool
 
+    /// Application names to exclude completely (all windows)
+    /// Matches against the localized application name
+    public var applicationNameExcludeList: Set<String>
+
+    /// Application names to exclude only untitled windows from
+    /// Matches against the localized application name
+    /// Only excludes windows where title is empty
+    public var untitledWindowExcludeList: Set<String>
+
     // MARK: - Performance Options
 
     /// Whether to enrich with AX metadata (slower but more accurate)
@@ -71,6 +80,8 @@ public struct WindowDiscoveryOptions: Sendable, Equatable, Hashable {
         bundleIdentifierWhitelist: Set<String>? = nil,
         bundleIdentifierBlacklist: Set<String> = [],
         excludeSystemProcesses: Bool = true,
+        applicationNameExcludeList: Set<String> = [],
+        untitledWindowExcludeList: Set<String> = [],
         useAccessibilityAPI: Bool = true,
         includeSpaceInfo: Bool = true,
         enableAXElementCaching: Bool = false,
@@ -87,6 +98,8 @@ public struct WindowDiscoveryOptions: Sendable, Equatable, Hashable {
         self.bundleIdentifierWhitelist = bundleIdentifierWhitelist
         self.bundleIdentifierBlacklist = bundleIdentifierBlacklist
         self.excludeSystemProcesses = excludeSystemProcesses
+        self.applicationNameExcludeList = applicationNameExcludeList
+        self.untitledWindowExcludeList = untitledWindowExcludeList
         self.useAccessibilityAPI = useAccessibilityAPI
         self.includeSpaceInfo = includeSpaceInfo
         self.enableAXElementCaching = enableAXElementCaching
@@ -110,6 +123,8 @@ extension WindowDiscoveryOptions {
         bundleIdentifierWhitelist: nil,
         bundleIdentifierBlacklist: [],
         excludeSystemProcesses: true,
+        applicationNameExcludeList: [],
+        untitledWindowExcludeList: [],
         useAccessibilityAPI: true,
         includeSpaceInfo: true
     )
@@ -127,6 +142,8 @@ extension WindowDiscoveryOptions {
         bundleIdentifierWhitelist: nil,
         bundleIdentifierBlacklist: [],
         excludeSystemProcesses: false,
+        applicationNameExcludeList: [],
+        untitledWindowExcludeList: [],
         useAccessibilityAPI: false,  // Key difference: no AX
         includeSpaceInfo: false
     )
@@ -144,6 +161,8 @@ extension WindowDiscoveryOptions {
         bundleIdentifierWhitelist: nil,
         bundleIdentifierBlacklist: [],
         excludeSystemProcesses: false,
+        applicationNameExcludeList: [],
+        untitledWindowExcludeList: [],
         useAccessibilityAPI: true,
         includeSpaceInfo: true
     )
@@ -161,6 +180,8 @@ extension WindowDiscoveryOptions {
         bundleIdentifierWhitelist: nil,
         bundleIdentifierBlacklist: [],
         excludeSystemProcesses: true,
+        applicationNameExcludeList: [],
+        untitledWindowExcludeList: [],
         useAccessibilityAPI: true,
         includeSpaceInfo: true
     )
