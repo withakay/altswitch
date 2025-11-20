@@ -35,6 +35,12 @@ struct ListCommand: ParsableCommand {
     @Option(name: .long, help: "Minimum window height")
     var minHeight: Double?
 
+    @Option(name: .long, parsing: .upToNextOption, help: "Exclude all windows from these applications (comma-separated app names)")
+    var excludeApps: [String] = []
+
+    @Option(name: .long, parsing: .upToNextOption, help: "Exclude untitled windows from these applications (comma-separated app names)")
+    var excludeUntitledApps: [String] = []
+
     func run() throws {
         // Build options
         var options: WindowDiscoveryOptions = fast ? .fast : .default
@@ -53,6 +59,14 @@ struct ListCommand: ParsableCommand {
 
         if let minWidth = minWidth, let minHeight = minHeight {
             options.minimumSize = CGSize(width: minWidth, height: minHeight)
+        }
+
+        if !excludeApps.isEmpty {
+            options.applicationNameExcludeList = Set(excludeApps)
+        }
+
+        if !excludeUntitledApps.isEmpty {
+            options.untitledWindowExcludeList = Set(excludeUntitledApps)
         }
 
         // Discover windows synchronously by wrapping async call
