@@ -429,8 +429,9 @@
 				DEVELOPMENT_TEAM = 576985M4ZN;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
-				GENERATE_INFOPLIST_FILE = YES;
+				ENABLE_USER_SELECTED_FILES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				EXCLUDED_SOURCE_FILE_NAMES = Info.plist;
 				INFOPLIST_FILE = AltSwitch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AltSwitch;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -472,8 +473,9 @@
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
-				GENERATE_INFOPLIST_FILE = YES;
+				ENABLE_USER_SELECTED_FILES = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				EXCLUDED_SOURCE_FILE_NAMES = Info.plist;
 				INFOPLIST_FILE = AltSwitch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AltSwitch;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";

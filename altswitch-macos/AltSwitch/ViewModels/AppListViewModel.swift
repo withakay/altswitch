@@ -39,6 +39,7 @@ final class AppListViewModel {
 
   // MARK: - Private Properties
 
+  @ObservationIgnored
   nonisolated(unsafe) private var searchTask: Task<Void, Never>?
   private let searchDebounceInterval: Duration = .milliseconds(50)
 
@@ -73,10 +74,7 @@ final class AppListViewModel {
 
   deinit {
     // Cancel search task on cleanup
-    let taskToCancel = searchTask
-    Task { @MainActor in
-      taskToCancel?.cancel()
-    }
+    searchTask?.cancel()
   }
 
   // MARK: - Public Methods
@@ -291,7 +289,7 @@ extension AppListViewModel {
       if let attrRange = Range(
         NSRange(location: startIndex, length: endIndex - startIndex), in: attributedString)
       {
-        attributedString[attrRange].font = .boldSystemFont(ofSize: 13)
+        attributedString[attrRange].font = .system(size: 13, weight: .bold)
       }
     }
 

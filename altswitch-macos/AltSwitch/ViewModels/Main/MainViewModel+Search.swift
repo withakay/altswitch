@@ -44,7 +44,6 @@ extension MainViewModel {
     }
 
     let query = searchText
-    let searchService = fuzzySearch
 
     print("⏱️ [updateFilteredApps] Debouncing search for query: '\(query)'")
     debounceTask = Task { @MainActor [weak self] in

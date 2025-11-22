@@ -33,7 +33,7 @@ final class MainViewModel {
   private(set) var allApps: [AppInfo] = []
 
   /// Filtered applications based on search
-  internal(set) var filteredApps: [SearchResult] = []
+  var filteredApps: [SearchResult] = []
 
   /// Currently selected index in filtered results
   private var _selectedIndex = 0
@@ -52,7 +52,7 @@ final class MainViewModel {
   private(set) var isLoading = false
 
   /// Any error that occurred
-  internal(set) var lastError: Error?
+  var lastError: Error?
 
   /// Whether accessibility permissions are granted
   private(set) var hasAccessibilityPermission = false
@@ -68,15 +68,15 @@ final class MainViewModel {
 
   // MARK: - Private Properties
 
-  nonisolated(unsafe) private var refreshTask: Task<Void, Never>?
-  nonisolated(unsafe) var debounceTask: Task<Void, Never>?
+  private var refreshTask: Task<Void, Never>?
+  var debounceTask: Task<Void, Never>?
   var selectionShortcutMonitors: [Any] = []
   weak var window: NSWindow?
   var frameObserver: NSKeyValueObservation?
   var hasShownFrameUpdate = false
 
   /// Current configuration from settings manager
-  internal(set) var configuration: Configuration
+  var configuration: Configuration
 
   // MARK: - Initialization
 

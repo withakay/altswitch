@@ -131,10 +131,10 @@ struct FiltersTab: View {
     .onAppear {
       loadCurrentSettings()
     }
-    .onChange(of: mainViewModel.configuration.applicationNameExcludeList) { newList in
+    .onChange(of: mainViewModel.configuration.applicationNameExcludeList) { _, newList in
       applicationNameExcludeList = newList
     }
-    .onChange(of: mainViewModel.configuration.untitledWindowExcludeList) { newList in
+    .onChange(of: mainViewModel.configuration.untitledWindowExcludeList) { _, newList in
       untitledWindowExcludeList = newList
     }
   }
