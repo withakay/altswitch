@@ -74,38 +74,38 @@ extension MainViewModel {
       print("📐 [show] Current frame height: \(currentFrame.height)")
 
       // Observe frame changes and show window once SwiftUI layout completes
-      var frameObserver: NSKeyValueObservation?
-      var hasShown = false
-
-      frameObserver = window.observe(\.frame, options: [.new]) { [weak self] observedWindow, change in
-        guard let self = self, let newFrame = change.newValue, !hasShown else { return }
+      hasShownFrameUpdate = false
+      frameObserver = window.observe(\.frame, options: [.new]) { @MainActor [weak self] observedWindow, change in
+        guard let self, let newFrame = change.newValue else { return }
+        guard !self.hasShownFrameUpdate else { return }
 
         // Check if frame has changed from the initial value (SwiftUI has updated layout)
         if newFrame.height != currentFrame.height && newFrame.height > 0 {
           print("✅ [show] Frame updated from \(currentFrame.height) to \(newFrame.height), showing window")
-          hasShown = true
+          self.hasShownFrameUpdate = true
 
           // Remove observer immediately
-          frameObserver?.invalidate()
-          frameObserver = nil
+          self.frameObserver?.invalidate()
+          self.frameObserver = nil
 
           // Now make the window visible
-          showWindow(observedWindow)
+          self.showWindow(observedWindow)
           // Note: Don't call makeFirstResponder here - let SwiftUI's @FocusState manage focus
           // The MainWindow view sets isSearchFocused = true in .onChange(of: viewModel.isVisible)
         }
       }
 
       // Fallback: If frame doesn't change within a reasonable time, show anyway
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-        if !hasShown {
-          print("⚠️ [show] Fallback timeout reached, showing window")
-          hasShown = true
-          frameObserver?.invalidate()
-          frameObserver = nil
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self, weak window] in
+        guard let self, let window else { return }
+        guard !self.hasShownFrameUpdate else { return }
 
-          showWindow(window)
-        }
+        print("⚠️ [show] Fallback timeout reached, showing window")
+        self.hasShownFrameUpdate = true
+        self.frameObserver?.invalidate()
+        self.frameObserver = nil
+
+        self.showWindow(window)
       }
     }
   }
