@@ -68,8 +68,10 @@ final class MainViewModel {
 
   // MARK: - Private Properties
 
-  private var refreshTask: Task<Void, Never>?
-  var debounceTask: Task<Void, Never>?
+  @ObservationIgnored
+  nonisolated(unsafe) private var refreshTask: Task<Void, Never>?
+  @ObservationIgnored
+  nonisolated(unsafe) var debounceTask: Task<Void, Never>?
   var selectionShortcutMonitors: [Any] = []
   weak var window: NSWindow?
   var frameObserver: NSKeyValueObservation?
