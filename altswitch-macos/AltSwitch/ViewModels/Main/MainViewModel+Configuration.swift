@@ -13,7 +13,17 @@ extension MainViewModel {
       Task { @MainActor [weak self] in
         guard let self = self else { return }
         self.configuration = newConfig
+        
+        // Update PackageAppDiscovery filters
+        if let packageDiscovery = self.appDiscovery as? PackageAppDiscovery {
+          packageDiscovery.applicationNameExcludeList = newConfig.applicationNameExcludeList
+          packageDiscovery.untitledWindowExcludeList = newConfig.untitledWindowExcludeList
+        }
+        
         await self.reloadHotkeys()
+        
+        // Refresh apps to apply new filters
+        await self.refreshApps()
       }
     }
   }
