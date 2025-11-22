@@ -425,7 +425,7 @@
 				CODE_SIGN_ENTITLEMENTS = AltSwitch/AltSwitch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 576985M4ZN;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_PREVIEWS = YES;
@@ -439,7 +439,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.5.6;
+				MARKETING_VERSION = 0.5.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-F/System/Library/PrivateFrameworks",
@@ -467,7 +467,7 @@
 				CODE_SIGN_ENTITLEMENTS = AltSwitch/AltSwitch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = 576985M4ZN;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -482,7 +482,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.5.6;
+				MARKETING_VERSION = 0.5.7;
 				OTHER_CODE_SIGNING_FLAGS = "--timestamp";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -507,10 +507,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.5.6;
+				MARKETING_VERSION = 0.5.7;
 				OTHER_CODE_SIGNING_FLAGS = "--timestamp";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -535,10 +535,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.5.6;
+				MARKETING_VERSION = 0.5.7;
 				OTHER_CODE_SIGNING_FLAGS = "--timestamp";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -562,9 +562,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 0.5.6;
+				MARKETING_VERSION = 0.5.7;
 				OTHER_CODE_SIGNING_FLAGS = "--timestamp";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -588,9 +588,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 0.5.6;
+				MARKETING_VERSION = 0.5.7;
 				OTHER_CODE_SIGNING_FLAGS = "--timestamp";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
