@@ -52,7 +52,7 @@ let package = Package(
         // Test target
         .testTarget(
             name: "MacWindowDiscoveryTests",
-            dependencies: ["MacWindowDiscovery"],
+            dependencies: ["MacWindowDiscovery", "MacWindowDiscoveryCLI"],
             resources: [
                 .copy("INTEGRATION_TESTS.md")
             ]

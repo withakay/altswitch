@@ -35,10 +35,10 @@ struct ListCommand: ParsableCommand {
     @Option(name: .long, help: "Minimum window height")
     var minHeight: Double?
 
-    @Option(name: .long, parsing: .upToNextOption, help: "Exclude all windows from these applications (comma-separated app names)")
+    @Option(name: .long, parsing: .upToNextOption, help: "Exclude all windows from these applications (comma-separated or repeatable app names)")
     var excludeApps: [String] = []
 
-    @Option(name: .long, parsing: .upToNextOption, help: "Exclude untitled windows from these applications (comma-separated app names)")
+    @Option(name: .long, parsing: .upToNextOption, help: "Exclude untitled windows from these applications (comma-separated or repeatable app names)")
     var excludeUntitledApps: [String] = []
 
     func run() throws {
@@ -61,12 +61,14 @@ struct ListCommand: ParsableCommand {
             options.minimumSize = CGSize(width: minWidth, height: minHeight)
         }
 
-        if !excludeApps.isEmpty {
-            options.applicationNameExcludeList = Set(excludeApps)
+        let normalizedExcludeApps = Self.normalizeAppList(excludeApps)
+        if !normalizedExcludeApps.isEmpty {
+            options.applicationNameExcludeList = Set(normalizedExcludeApps)
         }
 
-        if !excludeUntitledApps.isEmpty {
-            options.untitledWindowExcludeList = Set(excludeUntitledApps)
+        let normalizedExcludeUntitledApps = Self.normalizeAppList(excludeUntitledApps)
+        if !normalizedExcludeUntitledApps.isEmpty {
+            options.untitledWindowExcludeList = Set(normalizedExcludeUntitledApps)
         }
 
         // Discover windows synchronously by wrapping async call
@@ -90,5 +92,15 @@ struct ListCommand: ParsableCommand {
         // Format output
         let formatter = OutputFormatter(format: format)
         formatter.format(windows: sortedWindows)
+    }
+
+    /// Convert comma-separated or repeated CLI values into a normalized list.
+    static func normalizeAppList(_ values: [String]) -> [String] {
+        values.flatMap { value in
+            value
+                .split(separator: ",")
+                .map { String($0).trimmingCharacters(in: .whitespacesAndNewlines) }
+                .filter { !$0.isEmpty }
+        }
     }
 }
