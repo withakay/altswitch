@@ -17,6 +17,7 @@ struct GeneralTab: View {
   @AppStorage("debugMode") private var debugMode = false
   @State private var restrictToMainDisplay = false
   @State private var showIndividualWindows = true
+  @State private var enableAnimations = true
 
   // MARK: - Body
   var body: some View {
@@ -50,6 +51,17 @@ struct GeneralTab: View {
               .foregroundColor(.secondary)
               .fixedSize(horizontal: false, vertical: true)
           }
+
+          Divider()
+
+          VStack(alignment: .leading, spacing: 4) {
+            Toggle("Enable animations", isOn: $enableAnimations)
+
+            Text("Disable to make the window appear immediately without the show animation")
+              .font(.caption)
+              .foregroundColor(.secondary)
+              .fixedSize(horizontal: false, vertical: true)
+          }
         }
       }
 
@@ -70,42 +82,47 @@ struct GeneralTab: View {
       NSApp.setActivationPolicy(newValue ? .regular : .accessory)
     }
     .onChange(of: showIndividualWindows) { _, newValue in
-      Task {
-        var newBehavior = mainViewModel.configuration.behaviorConfiguration
-        newBehavior = BehaviorConfiguration(
-          enableFuzzySearch: newBehavior.enableFuzzySearch,
-          showWindowCounts: newBehavior.showWindowCounts,
-          enableSounds: newBehavior.enableSounds,
-          enableAnimations: newBehavior.enableAnimations,
-          restrictToMainDisplay: newBehavior.restrictToMainDisplay,
-          showIndividualWindows: newValue
-        )
-        try? await mainViewModel.updateBehavior(newBehavior)
-      }
+      applyWindowBehaviorChanges(showIndividualWindows: newValue)
     }
     .onChange(of: restrictToMainDisplay) { _, newValue in
-      Task {
-        var newBehavior = mainViewModel.configuration.behaviorConfiguration
-        newBehavior = BehaviorConfiguration(
-          enableFuzzySearch: newBehavior.enableFuzzySearch,
-          showWindowCounts: newBehavior.showWindowCounts,
-          enableSounds: newBehavior.enableSounds,
-          enableAnimations: newBehavior.enableAnimations,
-          restrictToMainDisplay: newValue,
-          showIndividualWindows: newBehavior.showIndividualWindows
-        )
-        try? await mainViewModel.updateBehavior(newBehavior)
-      }
+      applyWindowBehaviorChanges(restrictToMainDisplay: newValue)
+    }
+    .onChange(of: enableAnimations) { _, newValue in
+      applyWindowBehaviorChanges(enableAnimations: newValue)
     }
     .onAppear {
       restrictToMainDisplay = mainViewModel.configuration.restrictToMainDisplay
       showIndividualWindows = mainViewModel.configuration.showIndividualWindows
+      enableAnimations = mainViewModel.configuration.enableAnimations
     }
   }
 }
 
 #Preview("General Tab") {
   PreviewContainer()
+}
+
+// MARK: - Helpers
+
+private extension GeneralTab {
+  func applyWindowBehaviorChanges(
+    showIndividualWindows: Bool? = nil,
+    restrictToMainDisplay: Bool? = nil,
+    enableAnimations: Bool? = nil
+  ) {
+    Task { @MainActor in
+      var newBehavior = mainViewModel.configuration.behaviorConfiguration
+      newBehavior = BehaviorConfiguration(
+        enableFuzzySearch: newBehavior.enableFuzzySearch,
+        showWindowCounts: newBehavior.showWindowCounts,
+        enableSounds: newBehavior.enableSounds,
+        enableAnimations: enableAnimations ?? self.enableAnimations,
+        restrictToMainDisplay: restrictToMainDisplay ?? self.restrictToMainDisplay,
+        showIndividualWindows: showIndividualWindows ?? self.showIndividualWindows
+      )
+      try? await mainViewModel.updateBehavior(newBehavior)
+    }
+  }
 }
 
 // Helper container for previews

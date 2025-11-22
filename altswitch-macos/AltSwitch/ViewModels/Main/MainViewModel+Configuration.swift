@@ -44,6 +44,9 @@ extension MainViewModel {
     config.update(from: behavior)
     try await settingsManager.saveConfiguration(config)
     self.configuration = settingsManager.currentConfiguration
+    if let window {
+      configureWindowIfNeeded(window)
+    }
   }
 
   func resetToDefaults() async {

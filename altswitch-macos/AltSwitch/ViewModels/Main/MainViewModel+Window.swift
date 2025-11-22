@@ -31,7 +31,9 @@ extension MainViewModel {
     }
 
     // Order out the window initially to prevent flash
-    window.orderOut(nil)
+    applyAnimationPreference {
+      window.orderOut(nil)
+    }
 
     // Position the window BEFORE making it visible to prevent left-side flash
     if let screen = targetScreen(for: window) {
@@ -88,8 +90,7 @@ extension MainViewModel {
           frameObserver = nil
 
           // Now make the window visible
-          AppActivation.activate()
-          observedWindow.makeKeyAndOrderFront(nil)
+          showWindow(observedWindow)
           // Note: Don't call makeFirstResponder here - let SwiftUI's @FocusState manage focus
           // The MainWindow view sets isSearchFocused = true in .onChange(of: viewModel.isVisible)
         }
@@ -103,8 +104,7 @@ extension MainViewModel {
           frameObserver?.invalidate()
           frameObserver = nil
 
-          AppActivation.activate()
-          window.makeKeyAndOrderFront(nil)
+          showWindow(window)
         }
       }
     }
@@ -144,7 +144,7 @@ extension MainViewModel {
     print("🙈 [hide] After clearing state - allApps: \(allApps.count), filteredApps: \(filteredApps.count)")
 
     if let window = window ?? NSApp.windows.first(where: { $0.identifier?.rawValue == "main" }) {
-      window.orderOut(nil)
+      hideWindow(window)
     }
   }
 
@@ -166,11 +166,43 @@ extension MainViewModel {
     }
   }
 
+  // MARK: - Window Animation Helpers
+
+  private func applyAnimationPreference(_ action: () -> Void) {
+    if configuration.enableAnimations {
+      action()
+      return
+    }
+
+    NSAnimationContext.runAnimationGroup { context in
+      context.duration = 0
+      context.allowsImplicitAnimation = false
+      action()
+    }
+  }
+
+  private func showWindow(_ window: NSWindow) {
+    applyAnimationPreference {
+      AppActivation.activate()
+      window.makeKeyAndOrderFront(nil)
+    }
+  }
+
+  private func hideWindow(_ window: NSWindow) {
+    applyAnimationPreference {
+      window.orderOut(nil)
+    }
+  }
+
   func configureWindowIfNeeded(_ window: NSWindow) {
     window.level = .floating
     window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
     window.isOpaque = false
     window.backgroundColor = .clear
+    window.animationBehavior = configuration.enableAnimations ? .default : .none
+    if !configuration.enableAnimations {
+      window.animations = [:]
+    }
   }
 
   /// Resolve which display the window should appear on based on user preference.
