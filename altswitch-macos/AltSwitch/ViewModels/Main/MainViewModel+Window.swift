@@ -98,18 +98,18 @@ extension MainViewModel {
       }
 
       // Fallback: If frame doesn't change within a reasonable time, show anyway
-      DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self, weak window] in
-        Task { @MainActor [weak self, weak window] in
-          guard let self, let window else { return }
-          guard !self.hasShownFrameUpdate else { return }
+      Task { @MainActor [weak self, weak window] in
+        try? await Task.sleep(for: .milliseconds(200))
+        guard !Task.isCancelled else { return }
+        guard let self, let window else { return }
+        guard !self.hasShownFrameUpdate else { return }
 
-          print("⚠️ [show] Fallback timeout reached, showing window")
-          self.hasShownFrameUpdate = true
-          self.frameObserver?.invalidate()
-          self.frameObserver = nil
+        print("⚠️ [show] Fallback timeout reached, showing window")
+        self.hasShownFrameUpdate = true
+        self.frameObserver?.invalidate()
+        self.frameObserver = nil
 
-          self.showWindow(window)
-        }
+        self.showWindow(window)
       }
     }
   }
