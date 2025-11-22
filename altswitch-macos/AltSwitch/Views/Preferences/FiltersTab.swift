@@ -9,7 +9,6 @@ import SwiftUI
 
 struct FiltersTab: View {
   // MARK: - Environment & State
-  @Environment(SettingsViewModel.self) private var settingsViewModel
   @Environment(MainViewModel.self) private var mainViewModel
   @State private var applicationNameExcludeList: Set<String> = []
   @State private var untitledWindowExcludeList: Set<String> = []
@@ -132,6 +131,12 @@ struct FiltersTab: View {
     .onAppear {
       loadCurrentSettings()
     }
+    .onChange(of: mainViewModel.configuration.applicationNameExcludeList) { newList in
+      applicationNameExcludeList = newList
+    }
+    .onChange(of: mainViewModel.configuration.untitledWindowExcludeList) { newList in
+      untitledWindowExcludeList = newList
+    }
   }
   
   // MARK: - Private Methods
@@ -176,9 +181,6 @@ struct FiltersTab: View {
       config.untitledWindowExcludeList = untitledWindowExcludeList
       
       try await mainViewModel.settingsManager.saveConfiguration(config)
-      await MainActor.run {
-        mainViewModel.configuration = mainViewModel.settingsManager.currentConfiguration
-      }
     }
   }
 }
