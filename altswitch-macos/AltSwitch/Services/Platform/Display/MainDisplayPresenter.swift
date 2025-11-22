@@ -70,6 +70,7 @@ extension NSWindow {
 
 // MARK: - App activation (hotkey-friendly)
 
+@MainActor
 enum AppActivation {
   static func activate() {
     NSApp.activate(ignoringOtherApps: true)
@@ -114,7 +115,7 @@ struct PresentOnMainDisplayModifier: ViewModifier {
           placeIfNeeded()
         }
       )
-      .onChange(of: isEnabled) { _ in
+      .onChange(of: isEnabled) { _, _ in
         placeIfNeeded()
       }
       .onReceive(
@@ -175,6 +176,7 @@ extension View {
 
 // MARK: - Imperative API (useful in hotkey handlers)
 
+@MainActor
 enum MainDisplayPresenter {
   static func present(
     window: NSWindow,
@@ -189,7 +191,6 @@ enum MainDisplayPresenter {
     window.makeKeyAndOrderFront(nil)
   }
 
-  @MainActor
   static func present<Content: View>(
     content: Content,
     useMainDisplay: Bool,

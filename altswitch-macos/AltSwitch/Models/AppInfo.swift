@@ -65,7 +65,7 @@ final class AppInfo {
 
 extension AppInfo: Identifiable {
   var id: String {
-    if let windowTitle = windowTitle, !windows.isEmpty {
+    if windowTitle != nil, !windows.isEmpty {
       // Individual window mode: use bundle ID + window ID for uniqueness
       return "\(bundleIdentifier)_\(windows[0].id)"
     }

@@ -154,10 +154,12 @@ extension Configuration {
 
     struct FeaturesConfig: Codable {
       let enableSounds: Bool
+      let enableAnimations: Bool?
       let restrictToMainDisplay: Bool?
 
       enum CodingKeys: String, CodingKey {
         case enableSounds = "enable_sounds"
+        case enableAnimations = "enable_animations"
         case restrictToMainDisplay = "restrict_to_main_display"
       }
     }
@@ -197,6 +199,7 @@ extension Configuration {
       ),
       features: .init(
         enableSounds: enableSounds,
+        enableAnimations: enableAnimations,
         restrictToMainDisplay: restrictToMainDisplay
       ),
       filtering: .init(
@@ -234,6 +237,7 @@ extension Configuration {
       enableFuzzySearch: yaml.search.fuzzyEnabled,
       showWindowCounts: yaml.search.showWindowCounts,
       enableSounds: yaml.features.enableSounds,
+      enableAnimations: yaml.features.enableAnimations ?? true,
       restrictToMainDisplay: yaml.features.restrictToMainDisplay ?? false,
       showIndividualWindows: yaml.search.showIndividualWindows ?? true,
       applicationNameExcludeList: applicationNameExcludeList,

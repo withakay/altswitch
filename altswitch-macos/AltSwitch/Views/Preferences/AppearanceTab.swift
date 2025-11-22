@@ -52,7 +52,7 @@ struct AppearanceTab: View {
           }
 
           Slider(value: $hotkeyInitDelay, in: 0...0.1, step: 0.01)
-            .onChange(of: hotkeyInitDelay) { newValue in
+            .onChange(of: hotkeyInitDelay) { _, newValue in
               guard hasInitialized else { return }
               let clampedValue = min(max(newValue, 0), 0.1)
 
@@ -87,7 +87,7 @@ struct AppearanceTab: View {
       previousHotkeyInitDelay = currentDelay
       hasInitialized = true
     }
-    .onChange(of: settingsViewModel.hotkeyInitDelay) { newValue in
+    .onChange(of: settingsViewModel.hotkeyInitDelay) { _, newValue in
       guard hasInitialized else { return }
       if abs(newValue - hotkeyInitDelay) > .ulpOfOne {
         hotkeyInitDelay = newValue

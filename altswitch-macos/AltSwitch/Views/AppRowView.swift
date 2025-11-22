@@ -70,24 +70,24 @@ struct AppRowView: View {
             }
             .foregroundStyle(.secondary)
           }
-
-          if app.isActive {
-            Text("Active")
-              .font(.system(size: 10, weight: .medium))
-              .foregroundStyle(.green)
-          }
         }
       }
 
       Spacer()
 
-      // Quick select number for first 9 items
-      if let quickSelectIndex = quickSelectIndex, quickSelectIndex < 9 {
-        quickSelectBadge(number: quickSelectIndex + 1)
-      }
-      // Window count badge (only show if no quick select and multiple windows)
-      else if app.windows.count > 1 {
-        windowCountBadge
+      HStack(spacing: 8) {
+        if shouldShowActiveIndicator {
+          activeIndicator
+        }
+
+        // Quick select number for first 9 items
+        if let quickSelectIndex = quickSelectIndex, quickSelectIndex < 9 {
+          quickSelectBadge(number: quickSelectIndex + 1)
+        }
+        // Window count badge (only show if no quick select and multiple windows)
+        else if app.windows.count > 1 {
+          windowCountBadge
+        }
       }
     }
     .frame(height: AltSwitchConstants.rowHeight)
@@ -97,6 +97,23 @@ struct AppRowView: View {
     .onHover { hovering in
       isHovered = hovering
     }
+  }
+
+  // MARK: - Active Indicator
+
+  private var shouldShowActiveIndicator: Bool {
+    if app.windowTitle != nil {
+      guard app.isActive, let window = app.windows.first else { return false }
+      return window.isFocused || window.isMainWindow
+    }
+
+    return app.isActive
+  }
+
+  private var activeIndicator: some View {
+    Circle()
+      .fill(Color.green.opacity(0.85))
+      .frame(width: 8, height: 8)
   }
 
   // MARK: - Quick Select Badge

@@ -17,7 +17,7 @@ final class AppSwitcher: AppSwitcherProtocol {
 
   /// Dedicated operation queue for window focus commands (matching AltTab's approach)
   /// Uses .userInteractive QoS with max 4 concurrent operations
-  nonisolated(unsafe) private static let focusQueue: OperationQueue = {
+  nonisolated private static let focusQueue: OperationQueue = {
     let queue = OperationQueue()
     queue.qualityOfService = .userInteractive
     queue.maxConcurrentOperationCount = 4
