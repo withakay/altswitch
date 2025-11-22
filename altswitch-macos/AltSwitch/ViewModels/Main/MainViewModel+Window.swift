@@ -34,10 +34,7 @@ extension MainViewModel {
     window.orderOut(nil)
 
     // Position the window BEFORE making it visible to prevent left-side flash
-    if let screen = configuration.restrictToMainDisplay
-      ? NSScreen.menuBarScreen
-      : window.screen ?? NSScreen.main
-    {
+    if let screen = targetScreen(for: window) {
       window.move(to: screen, centered: true, animate: false)
     }
 
@@ -174,5 +171,18 @@ extension MainViewModel {
     window.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
     window.isOpaque = false
     window.backgroundColor = .clear
+  }
+
+  /// Resolve which display the window should appear on based on user preference.
+  private func targetScreen(for window: NSWindow) -> NSScreen? {
+    if configuration.restrictToMainDisplay {
+      return NSScreen.menuBarScreen ?? NSScreen.main
+    }
+
+    // Prefer the screen under the mouse; fall back to the window's current screen or main.
+    let mouseLocation = NSEvent.mouseLocation
+    return NSScreen.screens.first(where: { $0.frame.contains(mouseLocation) })
+      ?? window.screen
+      ?? NSScreen.main
   }
 }
