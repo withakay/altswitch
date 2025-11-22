@@ -42,6 +42,12 @@ final class PackageAppDiscovery: AppDiscoveryProtocol {
   /// Cache change callback
   private var cacheChangeCallback: (@MainActor () -> Void)?
 
+  /// Application name exclude list (all windows excluded)
+  var applicationNameExcludeList: Set<String> = []
+
+  /// Untitled window exclude list (only untitled windows excluded)
+  var untitledWindowExcludeList: Set<String> = []
+
   /// Icon cache (shared across all instances)
   private static var iconCache: NSCache<NSString, NSImage> = {
     let cache = NSCache<NSString, NSImage>()
@@ -94,6 +100,10 @@ final class PackageAppDiscovery: AppDiscoveryProtocol {
     options.bundleIdentifierBlacklist = Self.systemProcessesToSkip
     options.enableAXElementCaching = true
     options.collectTitleOverlay = true
+    
+    // Apply application filtering from configuration
+    options.applicationNameExcludeList = applicationNameExcludeList
+    options.untitledWindowExcludeList = untitledWindowExcludeList
 
     // Discover windows using package
     let packageWindows = try await engine.discoverWindows(options: options)
@@ -187,6 +197,10 @@ final class PackageAppDiscovery: AppDiscoveryProtocol {
     var options = MacWindowDiscovery.WindowDiscoveryOptions.default
     options.enableAXElementCaching = true
     options.collectTitleOverlay = true
+    
+    // Apply application filtering from configuration
+    options.applicationNameExcludeList = applicationNameExcludeList
+    options.untitledWindowExcludeList = untitledWindowExcludeList
     
     let packageWindows = try await engine.discoverWindows(
       forProcessID: app.processIdentifier,

@@ -127,6 +127,34 @@ com.jordanbaird.Ice                   # Ice menubar manager
 com.browserino.Browserino             # Browserino browser switcher
 ```
 
+#### Application Name Exclude List (configurable)
+- Default: Empty set (no exclusions)
+- Excludes ALL windows from applications with matching localized names
+- Matches against `AppInfo.localizedName`
+- Case-sensitive exact matching
+- Applied after bundle identifier filters
+
+**Example:**
+```swift
+options.applicationNameExcludeList = ["Slack", "Discord", "Music"]
+```
+
+#### Untitled Window Exclude List (configurable)
+- Default: Empty set (no exclusions)
+- Excludes ONLY untitled windows from applications with matching localized names
+- Matches against `AppInfo.localizedName`
+- Window is considered "untitled" if both CG title and AX title are empty
+- Titled windows from the same app pass through
+- Case-sensitive exact matching
+- Applied after application name exclude list
+
+**Example:**
+```swift
+options.untitledWindowExcludeList = ["Terminal", "iTerm"]
+```
+
+**Use Case:** Applications like Terminal or iTerm may have many background tabs without titles. This filter excludes those while keeping titled windows visible.
+
 ### 2.5 Space Filters
 
 #### Include Inactive Spaces (configurable)
@@ -310,6 +338,8 @@ WindowDiscoveryOptions(
     bundleIdentifierWhitelist: Set<String>? = nil,
     bundleIdentifierBlacklist: Set<String> = [],
     excludeSystemProcesses: Bool = true,
+    applicationNameExcludeList: Set<String> = [],
+    untitledWindowExcludeList: Set<String> = [],
 
     // Performance
     useAccessibilityAPI: Bool = true

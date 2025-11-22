@@ -37,6 +37,10 @@ struct WindowDiscoveryEngineTests {
         cgProvider.addMockWindow(id: 1, pid: 100)
         cgProvider.addMockWindow(id: 2, pid: 100)
 
+        // Add AX window info so windows pass requireProperSubrole filter
+        axProvider.addMockWindowInfo(id: 1)
+        axProvider.addMockWindowInfo(id: 2)
+
         workspaceProvider.addMockApp(
             pid: 100,
             bundleIdentifier: "com.test.app",
@@ -67,6 +71,10 @@ struct WindowDiscoveryEngineTests {
         cgProvider.addMockWindow(id: 1, pid: 100)
         cgProvider.addMockWindow(id: 2, pid: 200)
 
+        // Add AX window info so windows pass requireProperSubrole filter
+        axProvider.addMockWindowInfo(id: 1)
+        axProvider.addMockWindowInfo(id: 2)
+
         workspaceProvider.addMockApp(pid: 100, bundleIdentifier: "com.app1", localizedName: "App 1")
         workspaceProvider.addMockApp(pid: 200, bundleIdentifier: "com.app2", localizedName: "App 2")
 
@@ -91,6 +99,10 @@ struct WindowDiscoveryEngineTests {
 
         cgProvider.addMockWindow(id: 1, pid: 100)
         cgProvider.addMockWindow(id: 2, pid: 200)
+
+        // Add AX window info so windows pass requireProperSubrole filter
+        axProvider.addMockWindowInfo(id: 1)
+        axProvider.addMockWindowInfo(id: 2)
 
         workspaceProvider.addMockApp(pid: 100, bundleIdentifier: "com.wanted.app", localizedName: "Wanted")
         workspaceProvider.addMockApp(pid: 200, bundleIdentifier: "com.other.app", localizedName: "Other")
@@ -127,6 +139,10 @@ struct WindowDiscoveryEngineTests {
             pid: 100,
             bounds: CGRect(x: 0, y: 0, width: 800, height: 600)
         )
+
+        // Add AX window info so windows pass requireProperSubrole filter
+        axProvider.addMockWindowInfo(id: 1)
+        axProvider.addMockWindowInfo(id: 2)
 
         workspaceProvider.addMockApp(pid: 100, bundleIdentifier: "com.test", localizedName: "Test")
 

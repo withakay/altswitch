@@ -34,11 +34,17 @@ struct PreferencesView: View {
         }
         .tag(3)
 
+      FiltersTab()
+        .tabItem {
+          Label("Filters", systemImage: "line.3.horizontal.decrease.circle")
+        }
+        .tag(4)
+
       AdvancedTab()
         .tabItem {
           Label("Advanced", systemImage: "gearshape.2")
         }
-        .tag(4)
+        .tag(5)
     }
     .frame(width: 600, height: 400)
   }

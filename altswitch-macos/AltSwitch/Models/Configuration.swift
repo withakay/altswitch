@@ -33,6 +33,10 @@ final class Configuration: @unchecked Sendable {
   var restrictToMainDisplay: Bool
   var showIndividualWindows: Bool
 
+  // Window filtering
+  var applicationNameExcludeList: Set<String>
+  var untitledWindowExcludeList: Set<String>
+
   // Additional hotkeys (optional for compatibility)
   var showHideHotkey: KeyCombo? {
     get { showHotkey }
@@ -59,6 +63,8 @@ final class Configuration: @unchecked Sendable {
     enableAnimations: Bool = true,
     restrictToMainDisplay: Bool = false,
     showIndividualWindows: Bool = true,
+    applicationNameExcludeList: Set<String> = [],
+    untitledWindowExcludeList: Set<String> = [],
     settingsHotkey: KeyCombo? = nil,
     refreshHotkey: KeyCombo? = nil
   ) {
@@ -86,6 +92,8 @@ final class Configuration: @unchecked Sendable {
     self.enableAnimations = enableAnimations
     self.restrictToMainDisplay = restrictToMainDisplay
     self.showIndividualWindows = showIndividualWindows
+    self.applicationNameExcludeList = applicationNameExcludeList
+    self.untitledWindowExcludeList = untitledWindowExcludeList
     self.settingsHotkey = settingsHotkey
     self.refreshHotkey = refreshHotkey
   }
@@ -101,6 +109,7 @@ extension Configuration {
     let appearance: AppearanceConfig
     let search: SearchConfig
     let features: FeaturesConfig
+    let filtering: FilteringConfig?
 
     struct HotkeysConfig: Codable {
       let showHide: HotkeyConfig
@@ -152,6 +161,16 @@ extension Configuration {
         case restrictToMainDisplay = "restrict_to_main_display"
       }
     }
+
+    struct FilteringConfig: Codable {
+      let applicationNameExcludeList: [String]?
+      let untitledWindowExcludeList: [String]?
+
+      enum CodingKeys: String, CodingKey {
+        case applicationNameExcludeList = "application_name_exclude_list"
+        case untitledWindowExcludeList = "untitled_window_exclude_list"
+      }
+    }
     // swiftlint:enable nesting
   }
 
@@ -179,6 +198,10 @@ extension Configuration {
       features: .init(
         enableSounds: enableSounds,
         restrictToMainDisplay: restrictToMainDisplay
+      ),
+      filtering: .init(
+        applicationNameExcludeList: Array(applicationNameExcludeList).sorted(),
+        untitledWindowExcludeList: Array(untitledWindowExcludeList).sorted()
       )
     )
 
@@ -197,6 +220,10 @@ extension Configuration {
     // Migration: hotkeyInitDelay might not exist in older configs
     let hotkeyInitDelay = yaml.appearance.hotkeyInitDelay ?? 0.1  // Default to 100ms
     
+    // Migration: filtering might not exist in older configs
+    let applicationNameExcludeList = Set(yaml.filtering?.applicationNameExcludeList ?? [])
+    let untitledWindowExcludeList = Set(yaml.filtering?.untitledWindowExcludeList ?? [])
+    
     return Configuration(
       showHotkey: showHotkey,
       maxResults: yaml.appearance.maxResults,
@@ -209,6 +236,8 @@ extension Configuration {
       enableSounds: yaml.features.enableSounds,
       restrictToMainDisplay: yaml.features.restrictToMainDisplay ?? false,
       showIndividualWindows: yaml.search.showIndividualWindows ?? true,
+      applicationNameExcludeList: applicationNameExcludeList,
+      untitledWindowExcludeList: untitledWindowExcludeList,
       settingsHotkey: nil,
       refreshHotkey: nil
     )
@@ -282,6 +311,8 @@ extension Configuration {
       enableAnimations: enableAnimations,
       restrictToMainDisplay: restrictToMainDisplay,
       showIndividualWindows: showIndividualWindows,
+      applicationNameExcludeList: applicationNameExcludeList,
+      untitledWindowExcludeList: untitledWindowExcludeList,
       settingsHotkey: settingsHotkey,
       refreshHotkey: refreshHotkey
     )

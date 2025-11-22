@@ -78,6 +78,27 @@ struct WindowFilterPolicy {
             }
         }
 
+        // Apply application name exclude lists
+        if let appInfo = appInfo, let appName = appInfo.localizedName {
+            // Check full application exclude list
+            if options.applicationNameExcludeList.contains(appName) {
+                return false
+            }
+            
+            // Check untitled window exclude list
+            if options.untitledWindowExcludeList.contains(appName) {
+                // Only exclude if window has no title
+                // Check both CG title and AX title
+                let cgTitle = windowData[kCGWindowName as String] as? String ?? ""
+                let axTitle = axInfo?.title ?? ""
+                let hasTitle = !cgTitle.isEmpty || !axTitle.isEmpty
+                
+                if !hasTitle {
+                    return false
+                }
+            }
+        }
+
         // Apply space filter
         if !options.includeInactiveSpaces {
             let activeSpaceIDs = SpacesAPI.activeSpaceIDs()

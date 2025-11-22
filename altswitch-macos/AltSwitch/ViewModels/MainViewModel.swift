@@ -112,6 +112,12 @@ final class MainViewModel {
     // Get current configuration
     self.configuration = self.settingsManager.currentConfiguration
 
+    // Apply initial filter configuration to PackageAppDiscovery
+    if let packageDiscovery = appDiscovery as? PackageAppDiscovery {
+      packageDiscovery.applicationNameExcludeList = self.configuration.applicationNameExcludeList
+      packageDiscovery.untitledWindowExcludeList = self.configuration.untitledWindowExcludeList
+    }
+
     Task {
       // Check permissions FIRST before doing any expensive work
       checkAccessibilityPermission()
@@ -133,7 +139,16 @@ final class MainViewModel {
       // Get the potentially updated configuration after YAML loading
       await MainActor.run {
         self.configuration = self.settingsManager.currentConfiguration
+        
+        // Update PackageAppDiscovery filters after YAML load
+        if let packageDiscovery = self.appDiscovery as? PackageAppDiscovery {
+          packageDiscovery.applicationNameExcludeList = self.configuration.applicationNameExcludeList
+          packageDiscovery.untitledWindowExcludeList = self.configuration.untitledWindowExcludeList
+        }
       }
+      
+      // Refresh apps to apply filters from YAML
+      await refreshApps()
     }
   }
 
