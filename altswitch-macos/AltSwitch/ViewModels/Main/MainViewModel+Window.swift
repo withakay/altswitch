@@ -75,37 +75,41 @@ extension MainViewModel {
 
       // Observe frame changes and show window once SwiftUI layout completes
       hasShownFrameUpdate = false
-      frameObserver = window.observe(\.frame, options: [.new]) { @MainActor [weak self] observedWindow, change in
-        guard let self, let newFrame = change.newValue else { return }
-        guard !self.hasShownFrameUpdate else { return }
+      frameObserver = window.observe(\.frame, options: [.new]) { [weak self] observedWindow, change in
+        Task { @MainActor [weak self] in
+          guard let self, let newFrame = change.newValue else { return }
+          guard !self.hasShownFrameUpdate else { return }
 
-        // Check if frame has changed from the initial value (SwiftUI has updated layout)
-        if newFrame.height != currentFrame.height && newFrame.height > 0 {
-          print("✅ [show] Frame updated from \(currentFrame.height) to \(newFrame.height), showing window")
-          self.hasShownFrameUpdate = true
+          // Check if frame has changed from the initial value (SwiftUI has updated layout)
+          if newFrame.height != currentFrame.height && newFrame.height > 0 {
+            print("✅ [show] Frame updated from \(currentFrame.height) to \(newFrame.height), showing window")
+            self.hasShownFrameUpdate = true
 
-          // Remove observer immediately
-          self.frameObserver?.invalidate()
-          self.frameObserver = nil
+            // Remove observer immediately
+            self.frameObserver?.invalidate()
+            self.frameObserver = nil
 
-          // Now make the window visible
-          self.showWindow(observedWindow)
-          // Note: Don't call makeFirstResponder here - let SwiftUI's @FocusState manage focus
-          // The MainWindow view sets isSearchFocused = true in .onChange(of: viewModel.isVisible)
+            // Now make the window visible
+            self.showWindow(observedWindow)
+            // Note: Don't call makeFirstResponder here - let SwiftUI's @FocusState manage focus
+            // The MainWindow view sets isSearchFocused = true in .onChange(of: viewModel.isVisible)
+          }
         }
       }
 
       // Fallback: If frame doesn't change within a reasonable time, show anyway
       DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self, weak window] in
-        guard let self, let window else { return }
-        guard !self.hasShownFrameUpdate else { return }
+        Task { @MainActor [weak self, weak window] in
+          guard let self, let window else { return }
+          guard !self.hasShownFrameUpdate else { return }
 
-        print("⚠️ [show] Fallback timeout reached, showing window")
-        self.hasShownFrameUpdate = true
-        self.frameObserver?.invalidate()
-        self.frameObserver = nil
+          print("⚠️ [show] Fallback timeout reached, showing window")
+          self.hasShownFrameUpdate = true
+          self.frameObserver?.invalidate()
+          self.frameObserver = nil
 
-        self.showWindow(window)
+          self.showWindow(window)
+        }
       }
     }
   }
