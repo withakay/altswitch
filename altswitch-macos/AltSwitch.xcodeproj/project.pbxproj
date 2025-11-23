@@ -425,13 +425,13 @@
 				CODE_SIGN_ENTITLEMENTS = AltSwitch/AltSwitch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = 576985M4ZN;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = YES;
-				GENERATE_INFOPLIST_FILE = NO;
 				EXCLUDED_SOURCE_FILE_NAMES = Info.plist;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = AltSwitch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AltSwitch;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -440,7 +440,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.5.7;
+				MARKETING_VERSION = 0.5.8;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-F/System/Library/PrivateFrameworks",
@@ -468,14 +468,14 @@
 				CODE_SIGN_ENTITLEMENTS = AltSwitch/AltSwitch.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = 576985M4ZN;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = YES;
-				GENERATE_INFOPLIST_FILE = NO;
 				EXCLUDED_SOURCE_FILE_NAMES = Info.plist;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = AltSwitch/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = AltSwitch;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -484,7 +484,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.5.7;
+				MARKETING_VERSION = 0.5.8;
 				OTHER_CODE_SIGNING_FLAGS = "--timestamp";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -509,10 +509,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.5.7;
+				MARKETING_VERSION = 0.5.8;
 				OTHER_CODE_SIGNING_FLAGS = "--timestamp";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -537,10 +537,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.5.7;
+				MARKETING_VERSION = 0.5.8;
 				OTHER_CODE_SIGNING_FLAGS = "--timestamp";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -564,9 +564,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 0.5.7;
+				MARKETING_VERSION = 0.5.8;
 				OTHER_CODE_SIGNING_FLAGS = "--timestamp";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -590,9 +590,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 0.5.7;
+				MARKETING_VERSION = 0.5.8;
 				OTHER_CODE_SIGNING_FLAGS = "--timestamp";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
