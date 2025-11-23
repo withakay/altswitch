@@ -67,6 +67,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     NSLog("AltSwitch: Application launched")
 
+    guard enforceSingleInstance() else { return }
+
     // Hide from dock
     NSApp.setActivationPolicy(.accessory)
 
@@ -89,6 +91,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationWillTerminate(_ notification: Notification) {
     // Cleanup
     mainViewModel = nil
+  }
+
+  /// Ensure only one instance of AltSwitch runs at a time.
+  private func enforceSingleInstance() -> Bool {
+    guard let bundleID = Bundle.main.bundleIdentifier else {
+      NSLog("AltSwitch: Missing bundle identifier; cannot enforce single instance")
+      return true
+    }
+
+    let running = NSRunningApplication.runningApplications(withBundleIdentifier: bundleID)
+    guard running.count > 1 else { return true }
+
+    let currentPID = ProcessInfo.processInfo.processIdentifier
+    if let existing = running.first(where: { $0.processIdentifier != currentPID }) {
+      NSLog("AltSwitch: Existing instance detected (pid \(existing.processIdentifier)); activating and exiting duplicate")
+      existing.activate(options: [.activateIgnoringOtherApps, .activateAllWindows])
+    } else {
+      NSLog("AltSwitch: Multiple instances detected; terminating duplicate")
+    }
+
+    NSApp.terminate(nil)
+    return false
   }
 
   func provideMainViewModel() -> MainViewModel {
