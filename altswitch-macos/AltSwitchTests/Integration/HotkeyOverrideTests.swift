@@ -83,4 +83,20 @@ struct HotkeyOverrideTests {
 
     await resetOverrides()
   }
+
+  @Test("Double-tap mode propagates to interceptor state")
+  func testDoubleTapModeUpdatesInterceptor() async throws {
+    HotkeyCenter.shared.overrideModeDidChange(to: .doubleTapOption)
+    await synchronizeOverrides()
+
+    let interceptor = SystemEventInterceptor.shared
+    #expect(interceptor.debugDoubleTapModifier() == .option, "Double-tap selection should propagate to interceptor")
+
+    HotkeyCenter.shared.overrideModeDidChange(to: .custom)
+    await synchronizeOverrides()
+
+    #expect(interceptor.debugDoubleTapModifier() == nil, "Double-tap selection should clear when returning to custom hotkeys")
+
+    await resetOverrides()
+  }
 }

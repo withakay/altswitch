@@ -122,9 +122,14 @@ final class HotkeyCenter {
     print("🔧 Setting up system event interceptor for Cmd+Tab and Alt+Tab...")
     NSLog("AltSwitch: HotkeyCenter.setupEventInterceptor() called")
 
-    eventInterceptor.start { [weak self] mode, direction, phase in
-      self?.processTabOverride(mode: mode, direction: direction, phase: phase)
-    }
+    eventInterceptor.start(
+      overrideHandler: { [weak self] mode, direction, phase in
+        self?.processTabOverride(mode: mode, direction: direction, phase: phase)
+      },
+      doubleTapHandler: { [weak self] modifier in
+        self?.handleModifierDoubleTap(modifier)
+      }
+    )
 
     NSLog("AltSwitch: HotkeyCenter.setupEventInterceptor() completed")
   }
@@ -167,7 +172,11 @@ final class HotkeyCenter {
       KeyboardShortcuts.disable(.showHideAltSwitch)
     }
 
-    currentCyclingMode = (mode == .custom) ? nil : mode
+    if mode == .altTab || mode == .cmdTab {
+      currentCyclingMode = mode
+    } else {
+      currentCyclingMode = nil
+    }
 
     // CRITICAL: Force SystemEventInterceptor to reload settings immediately
     Task { @MainActor in
@@ -194,12 +203,21 @@ final class HotkeyCenter {
     mainViewModel.toggleVisibility()
   }
 
+  private func handleModifierDoubleTap(_ modifier: ModifierKey) {
+    NSLog("AltSwitch: Double-tap detected for \(modifier.rawValue)")
+    handleShowHideAltSwitch()
+  }
+
   private func applyStoredOverrideState() {
     overrideState = HotkeyOverrideState()
     let mode = overrideState.mode
     overrideState.isAltTabEnabled = (mode == .altTab)
     overrideState.isCmdTabEnabled = (mode == .cmdTab)
-    currentCyclingMode = (mode == .custom) ? nil : mode
+    if mode == .altTab || mode == .cmdTab {
+      currentCyclingMode = mode
+    } else {
+      currentCyclingMode = nil
+    }
 
     if mode == .custom {
       KeyboardShortcuts.enable(.showHideAltSwitch)

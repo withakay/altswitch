@@ -10,6 +10,10 @@ import Foundation
 enum HotkeyMode: String, CaseIterable, Identifiable {
   case altTab = "altTab"
   case cmdTab = "cmdTab"
+  case doubleTapOption = "doubleTapOption"
+  case doubleTapCommand = "doubleTapCommand"
+  case doubleTapControl = "doubleTapControl"
+  case doubleTapShift = "doubleTapShift"
   case custom = "custom"
 
   var id: String { rawValue }
@@ -18,6 +22,10 @@ enum HotkeyMode: String, CaseIterable, Identifiable {
     switch self {
     case .altTab: return "Alt+Tab"
     case .cmdTab: return "Cmd+Tab"
+    case .doubleTapOption: return "Double-tap Option"
+    case .doubleTapCommand: return "Double-tap Command"
+    case .doubleTapControl: return "Double-tap Control"
+    case .doubleTapShift: return "Double-tap Shift"
     case .custom: return "Custom"
     }
   }
@@ -29,8 +37,26 @@ enum HotkeyMode: String, CaseIterable, Identifiable {
     case .cmdTab:
       return
         "Cmd+Tab will open AltSwitch instead of the system app switcher (requires accessibility permissions)"
+    case .doubleTapOption:
+      return "Double-tap ⌥ Option to open AltSwitch from anywhere"
+    case .doubleTapCommand:
+      return "Double-tap ⌘ Command to open AltSwitch without a key chord"
+    case .doubleTapControl:
+      return "Double-tap ⌃ Control to open AltSwitch from anywhere"
+    case .doubleTapShift:
+      return "Double-tap ⇧ Shift to open AltSwitch without a key chord"
     case .custom:
       return "Use a custom keyboard shortcut to show/hide AltSwitch"
+    }
+  }
+
+  var doubleTapModifier: ModifierKey? {
+    switch self {
+    case .doubleTapOption: return .option
+    case .doubleTapCommand: return .command
+    case .doubleTapControl: return .control
+    case .doubleTapShift: return .shift
+    default: return nil
     }
   }
 }
@@ -66,5 +92,9 @@ struct HotkeyOverrideState {
   var isCmdTabEnabled: Bool {
     get { defaults.bool(forKey: Keys.cmdTabEnabled) }
     set { defaults.set(newValue, forKey: Keys.cmdTabEnabled) }
+  }
+
+  var doubleTapModifier: ModifierKey? {
+    mode.doubleTapModifier
   }
 }
