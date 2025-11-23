@@ -6,6 +6,7 @@
 import CoreGraphics
 import Foundation
 import Testing
+@testable import AltSwitch
 
 @Suite("ModifierDoubleTapDetector")
 struct ModifierDoubleTapDetectorTests {

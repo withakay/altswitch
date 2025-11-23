@@ -6,6 +6,7 @@
 //
 
 import AppKit
+import MacWindowDiscovery
 
 @testable import AltSwitch
 
@@ -24,14 +25,30 @@ enum TestFixtures {
     title: String,
     isOnScreen: Bool = true,
     alpha: Float = 1.0
-  ) -> WindowInfo {
-    WindowInfo(
+  ) -> MacWindowDiscovery.WindowInfo {
+    MacWindowDiscovery.WindowInfo(
       id: id,
       title: title,
       bounds: CGRect(x: 0, y: 0, width: 800, height: 600),
-      alpha: CGFloat(alpha),
+      alpha: Double(alpha),
       isOnScreen: isOnScreen,
-      layer: 0
+      layer: 0,
+      processID: 0,
+      bundleIdentifier: nil,
+      applicationName: title,
+      isMinimized: false,
+      isHidden: false,
+      isFullscreen: false,
+      isFocused: false,
+      isMainWindow: true,
+      isTabbed: false,
+      spaceIDs: [],
+      isOnAllSpaces: false,
+      desktopNumber: nil,
+      displayID: 0,
+      role: nil,
+      subrole: nil,
+      capturedAt: Date()
     )
   }
 
@@ -41,9 +58,9 @@ enum TestFixtures {
     pid: pid_t,
     isHidden: Bool = false,
     isActive: Bool = false,
-    windows: [WindowInfo] = []
-  ) -> AppInfo {
-    AppInfo(
+    windows: [MacWindowDiscovery.WindowInfo] = []
+  ) -> AltSwitch.AppInfo {
+    AltSwitch.AppInfo(
       bundleIdentifier: bundleIdentifier,
       localizedName: name,
       processIdentifier: pid,
