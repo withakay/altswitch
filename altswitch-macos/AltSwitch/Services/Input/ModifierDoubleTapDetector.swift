@@ -14,6 +14,7 @@ final class ModifierDoubleTapDetector {
   private var lastTapTimes: [ModifierKey: CFAbsoluteTime] = [:]
   private var sawInterveningNonModifierKey = false
   private let tapWindow: CFTimeInterval
+  var onReset: (() -> Void)?
 
   init(tapWindow: CFTimeInterval = ModifierDoubleTapDetector.defaultTapWindow) {
     self.tapWindow = max(0.1, tapWindow)
@@ -54,5 +55,6 @@ final class ModifierDoubleTapDetector {
       lastTapTimes.removeAll()
     }
     sawInterveningNonModifierKey = false
+    onReset?()
   }
 }

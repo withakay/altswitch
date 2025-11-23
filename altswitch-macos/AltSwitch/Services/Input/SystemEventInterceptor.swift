@@ -42,6 +42,7 @@ final class SystemEventInterceptor: @unchecked Sendable {
   private var overrideHandler: ((HotkeyMode, TabCycleDirection, TabOverridePhase) -> Void)?
   private var doubleTapHandler: ((ModifierKey) -> Void)?
   private var defaultsObserver: NSObjectProtocol?
+  private var overrideStateProvider: () -> HotkeyOverrideState = { HotkeyOverrideState() }
 
   // Track modifier state
   private var isCommandDown = false
@@ -425,7 +426,7 @@ final class SystemEventInterceptor: @unchecked Sendable {
   }
 
   private func reloadOverrideFlags() {
-    let state = HotkeyOverrideState()
+    let state = overrideStateProvider()
     let newCmdTabEnabled = state.isCmdTabEnabled
     let newAltTabEnabled = state.isAltTabEnabled
     let newDoubleTapModifier = state.doubleTapModifier
@@ -584,6 +585,28 @@ final class SystemEventInterceptor: @unchecked Sendable {
 
     func debugDoubleTapModifier() -> ModifierKey? {
       doubleTapModifier
+    }
+
+    func debugSetOverrideStateProvider(_ provider: @escaping () -> HotkeyOverrideState) {
+      overrideStateProvider = provider
+    }
+
+    func debugResetOverrideStateProvider() {
+      overrideStateProvider = { HotkeyOverrideState() }
+    }
+
+    func debugSetDoubleTapResetHandler(_ handler: (() -> Void)?) {
+      doubleTapDetector.onReset = handler
+    }
+
+    func debugSetOverrideFlags(
+      cmdTabEnabled: Bool,
+      altTabEnabled: Bool,
+      doubleTap: ModifierKey?
+    ) {
+      isCmdTabOverrideEnabled = cmdTabEnabled
+      isAltTabOverrideEnabled = altTabEnabled
+      doubleTapModifier = doubleTap
     }
   #endif
 }
