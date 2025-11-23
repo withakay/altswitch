@@ -5,8 +5,10 @@
 //  Created by Jack Rutherford on 25/09/2025.
 //
 
+import AppKit
 import SwiftUI
 
+@MainActor
 struct MenuBarView: View {
   @Environment(MainViewModel.self) private var viewModel
   @Environment(\.openSettings) private var openSettings
@@ -16,7 +18,6 @@ struct MenuBarView: View {
       Button("Show AltSwitch") {
         viewModel.show()
       }
-      .keyboardShortcut(" ", modifiers: .command)
 
       Divider()
         .padding(.vertical, 4)
