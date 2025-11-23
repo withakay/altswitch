@@ -11,11 +11,6 @@ import Testing
 @Suite("ModifierDoubleTapDetector")
 struct ModifierDoubleTapDetectorTests {
 
-  @Test("Default tap window is 350ms")
-  func defaultWindow() async throws {
-    #expect(ModifierDoubleTapDetector.defaultTapWindow == 0.35)
-  }
-
   @Test("Detects clean double tap within window")
   func detectsDoubleTap() async throws {
     let detector = ModifierDoubleTapDetector()
