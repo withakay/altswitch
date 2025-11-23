@@ -74,8 +74,6 @@ final class MainViewModel {
   nonisolated(unsafe) var debounceTask: Task<Void, Never>?
   var selectionShortcutMonitors: [Any] = []
   weak var window: NSWindow?
-  var frameObserver: NSKeyValueObservation?
-  var hasShownFrameUpdate = false
 
   /// Current configuration from settings manager
   var configuration: Configuration

@@ -69,48 +69,9 @@ extension MainViewModel {
       isVisible = true
       print("📊 [show] After isVisible=true - allApps: \(allApps.count), filteredApps: \(filteredApps.count)")
 
-      // Capture current frame to detect when SwiftUI updates it
-      let currentFrame = window.frame
-      print("📐 [show] Current frame height: \(currentFrame.height)")
-
-      // Observe frame changes and show window once SwiftUI layout completes
-      hasShownFrameUpdate = false
-      frameObserver = window.observe(\.frame, options: [.new]) { [weak self] observedWindow, change in
-        Task { @MainActor [weak self] in
-          guard let self, let newFrame = change.newValue else { return }
-          guard !self.hasShownFrameUpdate else { return }
-
-          // Check if frame has changed from the initial value (SwiftUI has updated layout)
-          if newFrame.height != currentFrame.height && newFrame.height > 0 {
-            print("✅ [show] Frame updated from \(currentFrame.height) to \(newFrame.height), showing window")
-            self.hasShownFrameUpdate = true
-
-            // Remove observer immediately
-            self.frameObserver?.invalidate()
-            self.frameObserver = nil
-
-            // Now make the window visible
-            self.showWindow(observedWindow)
-            // Note: Don't call makeFirstResponder here - let SwiftUI's @FocusState manage focus
-            // The MainWindow view sets isSearchFocused = true in .onChange(of: viewModel.isVisible)
-          }
-        }
-      }
-
-      // Fallback: If frame doesn't change within a reasonable time, show anyway
-      Task { @MainActor [weak self, weak window] in
-        try? await Task.sleep(for: .milliseconds(200))
-        guard !Task.isCancelled else { return }
-        guard let self, let window else { return }
-        guard !self.hasShownFrameUpdate else { return }
-
-        print("⚠️ [show] Fallback timeout reached, showing window")
-        self.hasShownFrameUpdate = true
-        self.frameObserver?.invalidate()
-        self.frameObserver = nil
-
-        self.showWindow(window)
-      }
+      print("🎯 [show] Showing window immediately after state update")
+      showWindow(window)
+      // Note: Focus is still managed by SwiftUI's @FocusState on the MainWindow view.
     }
   }
 
