@@ -16,6 +16,7 @@ struct HotkeysTab: View {
   @State private var overrideState = HotkeyOverrideState()
   @State private var hotkeyMode: HotkeyMode = .custom
   @State private var enableCycling: Bool = true
+  private let doubleTapWindowMs = Int(ModifierDoubleTapDetector.defaultTapWindow * 1_000)
   private var activationOptions: [ActivationOption] {
     [
       ActivationOption(
@@ -112,7 +113,9 @@ struct HotkeysTab: View {
                 .foregroundColor(.secondary)
 
               if let doubleTap = hotkeyMode.doubleTapModifier {
-                Text("\(doubleTap.symbol)\(doubleTap.symbol) taps within 350ms toggle AltSwitch; any other key press resets the gesture.")
+                Text(
+                  "\(doubleTap.symbol)\(doubleTap.symbol) taps within \(doubleTapWindowMs)ms toggle AltSwitch; any other key press resets the gesture."
+                )
                   .font(.caption2)
                   .foregroundStyle(.secondary)
               }

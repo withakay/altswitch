@@ -11,9 +11,14 @@ import Testing
 @Suite("ModifierDoubleTapDetector")
 struct ModifierDoubleTapDetectorTests {
 
+  @Test("Default tap window is 350ms")
+  func defaultWindow() async throws {
+    #expect(ModifierDoubleTapDetector.defaultTapWindow == 0.35)
+  }
+
   @Test("Detects clean double tap within window")
   func detectsDoubleTap() async throws {
-    let detector = ModifierDoubleTapDetector(tapWindow: 0.3)
+    let detector = ModifierDoubleTapDetector()
 
     #expect(detector.noteModifierDown(.option, flags: [.maskAlternate], timestamp: 0.0) == false)
     #expect(detector.noteModifierDown(.option, flags: [.maskAlternate], timestamp: 0.2) == true)
@@ -21,7 +26,7 @@ struct ModifierDoubleTapDetectorTests {
 
   @Test("Intervening keys force a new double tap sequence")
   func interveningKeyCancels() async throws {
-    let detector = ModifierDoubleTapDetector(tapWindow: 0.3)
+    let detector = ModifierDoubleTapDetector()
 
     _ = detector.noteModifierDown(.command, flags: [.maskCommand], timestamp: 0.0)
     detector.registerNonModifierKey()
@@ -32,7 +37,7 @@ struct ModifierDoubleTapDetectorTests {
 
   @Test("Ignores presses when other modifiers are present")
   func ignoresMixedModifierPresses() async throws {
-    let detector = ModifierDoubleTapDetector(tapWindow: 0.3)
+    let detector = ModifierDoubleTapDetector()
 
     #expect(
       detector.noteModifierDown(

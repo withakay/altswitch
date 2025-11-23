@@ -10,11 +10,12 @@ import Foundation
 
 /// Stateless-ish helper to detect double-tap gestures on modifier keys.
 final class ModifierDoubleTapDetector {
+  static let defaultTapWindow: CFTimeInterval = 0.35
   private var lastTapTimes: [ModifierKey: CFAbsoluteTime] = [:]
   private var sawInterveningNonModifierKey = false
   private let tapWindow: CFTimeInterval
 
-  init(tapWindow: CFTimeInterval = 0.35) {
+  init(tapWindow: CFTimeInterval = ModifierDoubleTapDetector.defaultTapWindow) {
     self.tapWindow = max(0.1, tapWindow)
   }
 

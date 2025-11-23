@@ -13,7 +13,7 @@ struct ModifierDoubleTapDetectorResetTests {
 
   @Test("Clears state when switching modifiers")
   func resetWhenModifierChanges() {
-    let detector = ModifierDoubleTapDetector(tapWindow: 0.3)
+    let detector = ModifierDoubleTapDetector()
 
     // First tap command, then switch to option which should not inherit state
     _ = detector.noteModifierDown(.command, flags: [.maskCommand], timestamp: 0.0)
@@ -24,7 +24,7 @@ struct ModifierDoubleTapDetectorResetTests {
 
   @Test("Resets when explicitly requested")
   func explicitResetClearsHistory() {
-    let detector = ModifierDoubleTapDetector(tapWindow: 0.3)
+    let detector = ModifierDoubleTapDetector()
 
     _ = detector.noteModifierDown(.shift, flags: [.maskShift], timestamp: 0.0)
     detector.reset()
