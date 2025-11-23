@@ -75,6 +75,12 @@ final class PackageAppDiscovery: AppDiscoveryProtocol {
     // Set up event monitoring for cache invalidation
     Task { @MainActor in
       self.engine.startMonitoring()
+      self.engine.onInvalidation { [weak self] _ in
+        guard let self else { return }
+        Task { @MainActor in
+          self.cacheChangeCallback?()
+        }
+      }
     }
   }
 
