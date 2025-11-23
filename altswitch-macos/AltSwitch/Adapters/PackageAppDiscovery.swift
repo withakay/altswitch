@@ -73,13 +73,11 @@ final class PackageAppDiscovery: AppDiscoveryProtocol {
     self.engine = MacWindowDiscovery.CachedWindowDiscoveryEngine(cacheTTL: 2.0)
 
     // Set up event monitoring for cache invalidation
-    Task { @MainActor in
-      self.engine.startMonitoring()
-      self.engine.onInvalidation { [weak self] _ in
-        guard let self else { return }
-        Task { @MainActor in
-          self.cacheChangeCallback?()
-        }
+    self.engine.startMonitoring()
+    self.engine.onInvalidation { [weak self] _ in
+      guard let self else { return }
+      Task { @MainActor in
+        self.cacheChangeCallback?()
       }
     }
   }
