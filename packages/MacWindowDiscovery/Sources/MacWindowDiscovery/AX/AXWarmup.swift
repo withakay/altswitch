@@ -179,7 +179,7 @@ public enum AXWarmup {
         static let shared = WarmupOnce()
         private var task: Task<Void, Never>?
 
-        func run(_ operation: @escaping () async -> Void) async {
+        func run(_ operation: @Sendable @escaping () async -> Void) async {
             if let task {
                 await task.value
                 return
