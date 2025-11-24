@@ -51,6 +51,59 @@ public enum AXWarmup {
         }
         return await MainActor.run { AXElementStore.shared.get(for: windowID) }
     }
+
+    /// One-time brute-force pass over a PID range to populate AXElementStore with titles/elements for off-space windows.
+    public static func warmUpTitlesForPIDRange(
+        pidRange: ClosedRange<pid_t> = 1...1000,
+        maxElementID: Int = 1000,
+        timeBudgetMsPerPID: Int = 50,
+        maxConcurrent: Int = 4
+    ) async {
+        guard AXIsProcessTrusted() else { return }
+
+        let gate = ConcurrencyGate(maxConcurrent)
+
+        await withTaskGroup(of: Void.self) { group in
+            for pid in pidRange {
+                group.addTask {
+                    await gate.acquire()
+                    let elements = AXRemoteTokenEnumerator().enumerateWindows(
+                        for: pid,
+                        maxElementID: maxElementID,
+                        timeBudgetMs: timeBudgetMsPerPID
+                    )
+
+                    if elements.isEmpty {
+                        await gate.release()
+                        return
+                    }
+
+                    await MainActor.run {
+                        for element in elements {
+                            var wid: CGWindowID = 0
+                            guard _AXUIElementGetWindow(element, &wid) == .success,
+                                  wid != 0,
+                                  wid != CGWindowID(bitPattern: -1) else { continue }
+
+                            if let title = copyTitle(from: element), !title.isEmpty {
+                                AXElementStore.shared.setTitle(title, for: wid)
+                            }
+                            AXElementStore.shared.set(element, for: wid)
+                        }
+                    }
+
+                    await gate.release()
+                }
+            }
+        }
+    }
+
+    private static func copyTitle(from element: AXUIElement) -> String? {
+        var titleValue: CFTypeRef?
+        let result = AXUIElementCopyAttributeValue(element, kAXTitleAttribute as CFString, &titleValue)
+        guard result == .success, let title = titleValue as? String else { return nil }
+        return title
+    }
 }
 
 // Simple async concurrency gate to limit concurrent warm-up tasks.
