@@ -24,6 +24,9 @@ struct WindowFilterPolicy {
         appInfo: AppInfo?,
         spaceIDs: [Int] = []
     ) -> Bool {
+        let normalizedAppExclude = Set(options.applicationNameExcludeList.map { $0.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() })
+        let normalizedUntitledExclude = Set(options.untitledWindowExcludeList.map { $0.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() })
+
         // Extract window properties
         guard let bounds = extractBounds(from: windowData) else {
             return false
@@ -80,13 +83,15 @@ struct WindowFilterPolicy {
 
         // Apply application name exclude lists
         if let appInfo = appInfo, let appName = appInfo.localizedName {
+            let normalizedName = appName.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+
             // Check full application exclude list
-            if options.applicationNameExcludeList.contains(appName) {
+            if normalizedAppExclude.contains(normalizedName) {
                 return false
             }
             
             // Check untitled window exclude list
-            if options.untitledWindowExcludeList.contains(appName) {
+            if normalizedUntitledExclude.contains(normalizedName) {
                 // Only exclude if window has no title
                 // Check both CG title and AX title
                 let cgTitle = windowData[kCGWindowName as String] as? String ?? ""
