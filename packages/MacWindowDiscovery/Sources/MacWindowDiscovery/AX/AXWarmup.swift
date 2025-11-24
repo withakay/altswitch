@@ -98,6 +98,63 @@ public enum AXWarmup {
         }
     }
 
+    /// Warm up titles for all running apps, then sweep a PID range excluding already-scanned PIDs.
+    public static func warmUpTitlesForRunningAndRange(
+        pidRange: ClosedRange<pid_t> = 1...10_000,
+        maxElementID: Int = 2_000,
+        timeBudgetMsPerPID: Int = 50,
+        maxConcurrent: Int = 4
+    ) async {
+        guard AXIsProcessTrusted() else { return }
+
+        // Collect running app PIDs first (fast path)
+        let runningPIDs = NSWorkspace.shared.runningApplications
+            .map(\.processIdentifier)
+            .filter { $0 > 0 }
+        let runningPIDSet = Set(runningPIDs)
+
+        // Warm titles for running apps
+        await warmUpTitlesForPIDRange(
+            pidRange: ClosedRange(uncheckedBounds: (lower: runningPIDs.min() ?? 1, upper: runningPIDs.max() ?? 0)),
+            maxElementID: maxElementID,
+            timeBudgetMsPerPID: timeBudgetMsPerPID,
+            maxConcurrent: maxConcurrent
+        )
+
+        // Then sweep the configured PID range excluding already scanned PIDs
+        let remainingPIDs = pidRange.filter { !runningPIDSet.contains($0) }
+        if remainingPIDs.isEmpty { return }
+
+        // Build minimal contiguous ranges from remaining PIDs to reuse warmUpTitlesForPIDRange
+        let ranges = compressToRanges(remainingPIDs)
+        for range in ranges {
+            await warmUpTitlesForPIDRange(
+                pidRange: range,
+                maxElementID: maxElementID,
+                timeBudgetMsPerPID: timeBudgetMsPerPID,
+                maxConcurrent: maxConcurrent
+            )
+        }
+    }
+
+    private static func compressToRanges(_ pids: [pid_t]) -> [ClosedRange<pid_t>] {
+        guard var start = pids.first else { return [] }
+        var end = start
+        var ranges: [ClosedRange<pid_t>] = []
+
+        for pid in pids.dropFirst() {
+            if pid == end + 1 {
+                end = pid
+            } else {
+                ranges.append(start...end)
+                start = pid
+                end = pid
+            }
+        }
+        ranges.append(start...end)
+        return ranges
+    }
+
     private static func copyTitle(from element: AXUIElement) -> String? {
         var titleValue: CFTypeRef?
         let result = AXUIElementCopyAttributeValue(element, kAXTitleAttribute as CFString, &titleValue)
