@@ -30,8 +30,8 @@ final class AppSwitcher: AppSwitcherProtocol {
     Task.detached {
       await AXWarmup.warmUpAXCacheForAllRunningApps(timeoutPerAppMs: 50, maxConcurrent: 3)
       await AXWarmup.warmUpTitlesForPIDRange(
-        pidRange: 1...1000,
-        maxElementID: 1000,
+        pidRange: 1...10_000,
+        maxElementID: 2_000,
         timeBudgetMsPerPID: 40,
         maxConcurrent: 3
       )

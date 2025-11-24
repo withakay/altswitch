@@ -54,8 +54,8 @@ public enum AXWarmup {
 
     /// One-time brute-force pass over a PID range to populate AXElementStore with titles/elements for off-space windows.
     public static func warmUpTitlesForPIDRange(
-        pidRange: ClosedRange<pid_t> = 1...1000,
-        maxElementID: Int = 1000,
+        pidRange: ClosedRange<pid_t> = 1...10_000,
+        maxElementID: Int = 2_000,
         timeBudgetMsPerPID: Int = 50,
         maxConcurrent: Int = 4
     ) async {
