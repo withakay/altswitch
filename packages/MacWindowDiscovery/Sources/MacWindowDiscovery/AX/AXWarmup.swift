@@ -55,7 +55,7 @@ public enum AXWarmup {
     /// One-time brute-force pass over a PID range to populate AXElementStore with titles/elements for off-space windows.
     public static func warmUpTitlesForPIDRange(
         pidRange: ClosedRange<pid_t> = 1...10_000,
-        maxElementID: Int = 2_000,
+        maxElementID: Int = 10_000,
         timeBudgetMsPerPID: Int = 50,
         maxConcurrent: Int = 4
     ) async {
@@ -101,7 +101,7 @@ public enum AXWarmup {
     /// Warm up titles for all running apps, then sweep a PID range excluding already-scanned PIDs.
     public static func warmUpTitlesForRunningAndRange(
         pidRange: ClosedRange<pid_t> = 1...10_000,
-        maxElementID: Int = 2_000,
+        maxElementID: Int = 10_000,
         timeBudgetMsPerPID: Int = 50,
         maxConcurrent: Int = 4
     ) async {
@@ -113,13 +113,15 @@ public enum AXWarmup {
             .filter { $0 > 0 }
         let runningPIDSet = Set(runningPIDs)
 
-        // Warm titles for running apps
-        await warmUpTitlesForPIDRange(
-            pidRange: ClosedRange(uncheckedBounds: (lower: runningPIDs.min() ?? 1, upper: runningPIDs.max() ?? 0)),
-            maxElementID: maxElementID,
-            timeBudgetMsPerPID: timeBudgetMsPerPID,
-            maxConcurrent: maxConcurrent
-        )
+        // Warm titles for running apps if we have any
+        if let minPID = runningPIDs.min(), let maxPID = runningPIDs.max(), minPID <= maxPID {
+            await warmUpTitlesForPIDRange(
+                pidRange: minPID...maxPID,
+                maxElementID: maxElementID,
+                timeBudgetMsPerPID: timeBudgetMsPerPID,
+                maxConcurrent: maxConcurrent
+            )
+        }
 
         // Then sweep the configured PID range excluding already scanned PIDs
         let remainingPIDs = pidRange.filter { !runningPIDSet.contains($0) }
@@ -153,6 +155,42 @@ public enum AXWarmup {
         }
         ranges.append(start...end)
         return ranges
+    }
+
+    /// Run the full startup warmup (AX cache + title sweep) once, reusing a shared task.
+    public static func runStartupWarmupOnce(
+        pidRange: ClosedRange<pid_t> = 1...10_000,
+        maxElementID: Int = 10_000,
+        timeBudgetMsPerPID: Int = 50,
+        maxConcurrent: Int = 4
+    ) async {
+        await WarmupOnce.shared.run {
+            await warmUpAXCacheForAllRunningApps(timeoutPerAppMs: timeBudgetMsPerPID, maxConcurrent: maxConcurrent)
+            await warmUpTitlesForRunningAndRange(
+                pidRange: pidRange,
+                maxElementID: maxElementID,
+                timeBudgetMsPerPID: timeBudgetMsPerPID,
+                maxConcurrent: maxConcurrent
+            )
+        }
+    }
+
+    private actor WarmupOnce {
+        static let shared = WarmupOnce()
+        private var task: Task<Void, Never>?
+
+        func run(_ operation: @escaping () async -> Void) async {
+            if let task {
+                await task.value
+                return
+            }
+
+            let task = Task {
+                await operation()
+            }
+            self.task = task
+            await task.value
+        }
     }
 
     private static func copyTitle(from element: AXUIElement) -> String? {

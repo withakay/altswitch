@@ -9,6 +9,7 @@ import AppKit
 import Carbon
 import CoreGraphics
 import Foundation
+import MacWindowDiscovery
 import Observation
 import SwiftUI
 
@@ -235,6 +236,14 @@ final class MainViewModel {
 
   // MARK: - Private Methods
   private func startAppDiscovery() async {
+    // Ensure startup AX/title warmup has run so off-space windows have cached titles before first refresh.
+    await AXWarmup.runStartupWarmupOnce(
+      pidRange: 1...10_000,
+      maxElementID: 10_000,
+      timeBudgetMsPerPID: 40,
+      maxConcurrent: 3
+    )
+
     await refreshApps()
 
     // NOTE: Polling loop disabled - AppDiscoveryService uses event-driven updates (AXObserver + NSWorkspace notifications)

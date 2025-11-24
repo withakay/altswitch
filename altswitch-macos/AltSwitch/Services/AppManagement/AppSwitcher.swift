@@ -28,10 +28,9 @@ final class AppSwitcher: AppSwitcherProtocol {
   init() {
     // Background AX warm-up at startup. Non-blocking and time-bounded.
     Task.detached {
-      await AXWarmup.warmUpAXCacheForAllRunningApps(timeoutPerAppMs: 50, maxConcurrent: 3)
-      await AXWarmup.warmUpTitlesForRunningAndRange(
+      await AXWarmup.runStartupWarmupOnce(
         pidRange: 1...10_000,
-        maxElementID: 2_000,
+        maxElementID: 10_000,
         timeBudgetMsPerPID: 40,
         maxConcurrent: 3
       )
